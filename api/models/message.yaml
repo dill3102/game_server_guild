@@ -1,0 +1,125 @@
+openapi: 3.0.2
+info: 
+paths: 
+
+components:
+  schemas:
+    MessageRoomUpdateReq:
+      type: object
+      properties:
+        name: 
+          type: string
+          example: 結盟騎士団チャットルーム(団長抜き)
+        icon: 
+          type: string
+          example: example.png
+        invite_users:
+          $ref: ../utils/default.yaml#/components/schemas/InviteUsers
+      required:
+        - name
+        - icon
+        - invite_users
+
+    GetMessageRoomsRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: ./message.yaml#/components/schemas/MessageRoom
+        pager:
+          $ref: ../utils/pager.yaml#/components/schemas/Pager
+      required:
+        - items
+        - pager
+
+    GetMessageRoomRes:
+      type: object
+      properties:
+        item:
+          $ref: ./message.yaml#/components/schemas/MessageRoom
+      required:
+        - item
+    
+    GetMessageRoomChatsRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: ./message.yaml#/components/schemas/chat
+        pager:
+          $ref: ../utils/pager.yaml#/components/schemas/Pager
+      required:
+        - items
+        - pager
+
+    PostMessageRoomChatReq:
+      type: object
+      properties:
+        item:
+          type: string
+          description: チャット内容
+          example: Hello World!
+      required:
+        - item
+
+    PutMessageRoomChatReq:
+      type: object
+      properties:
+        id:
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        chat:
+          type: string
+          description: チャット内容
+          example: Hello World!
+      required:
+        - id
+        - chat
+
+    MessageRoom:
+      type: object
+      properties:
+        id:
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        name: 
+          type: string
+          description: 部屋名
+          example: 結盟騎士団メッセージルーム
+        icon:
+          type: string
+          description: アイコン設定
+          example: example.png
+        members:
+          type: array
+          items:
+            $ref: ./user.yaml#/components/schemas/User
+        last_messaged_at:
+          $ref: ../utils/default.yaml#/components/schemas/ExecuteAt
+          description: 最終連絡時刻
+        have_unread:
+          type: boolean
+          description: 未読メッセージの有無情報
+      required:
+        - id
+        - name
+        - icon
+        - members
+        - last_messaged_at
+        - have_unread
+
+    chat:
+      type: object
+      properties:
+        id:
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        message:
+          type: string
+          description: メッセージ本体
+          example: Hello World!
+        last_messaged_at:
+          $ref: ../utils/default.yaml#/components/schemas/ExecuteAt
+      required:
+        - id
+        - message
+        - last_messaged_at

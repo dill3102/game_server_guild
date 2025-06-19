@@ -1,0 +1,99 @@
+openapi: 3.0.2
+info: 
+paths: 
+
+components:
+  schemas:
+    GetEventSummeryListRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items: 
+            $ref: ./event.yaml#/components/schemas/EventSummery
+        pager:
+          $ref: ../utils/pager.yaml#/components/schemas/Pager
+      required:
+        - items
+        - pager
+
+    GetEventDetailsRes:
+      type: object
+      properties:
+        event:
+          $ref: ./event.yaml#/components/schemas/EventDetails
+      required:
+        - event
+
+    EventSummery:
+      type: object
+      properties:
+        id:
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        name: 
+          type: string
+          description: イベント名
+          example: 〇〇イベント
+        since:
+          $ref: ../utils/default.yaml#/components/schemas/ExecuteAt
+          description: イベント開始時刻 UTC TIME
+        until:
+          $ref: ../utils/default.yaml#/components/schemas/ExecuteAt
+          description: イベント終了
+        event_type:
+          $ref: ./event.yaml#/components/schemas/EventTypeEnum
+      required:
+        - id
+        - name
+        - since
+        - until
+        - event_type            
+
+    EventDetails:
+      type: object
+      properties:
+        id: 
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        parent_event_id:
+          $ref: ../utils/default.yaml#/components/schemas/Id
+          description: 親イベント(主従の場合に親に登録する形になるため)
+        name: 
+          type: string
+          description: イベント名
+          example: 〇〇イベント
+        since:
+          $ref: ../utils/default.yaml#/components/schemas/ExecuteAt
+          description: イベント開始時刻 UTC TIME
+        until:
+          $ref: ../utils/default.yaml#/components/schemas/ExecuteAt
+          description: イベント終了
+        event_type:
+          $ref: ./event.yaml#/components/schemas/EventTypeEnum
+        thumbnail:
+          type: string
+          example: example.png
+        desc_block: 
+          type: string
+          description: htmlのblockを表示する
+          example: <title> ギルドバトル開催</title>
+      required:
+        - id
+        - name
+        - since
+        - until
+        - event_type
+        - thumbnail
+        - desc_block
+    
+    EventTypeEnum:
+      type: integer
+      enum:
+        - 1 # ログインボーナス
+        - 11 # ギルドバトル 本体
+        - 12 # ギルドバトル エントリー期間
+        - 13 # ギルドバトル キャラクター登録
+        - 14 # ギルドバトル バトル実施
+        - 15 # ギルドバトル 結果発表期間
+        - 20 # 売価n倍イベント
+        - 30 # なんか少しずつ増やそうねー?
+        - 40 # なんか少しずつ増やそうねー?

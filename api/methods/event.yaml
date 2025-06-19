@@ -1,0 +1,48 @@
+openapi: 3.0.2
+info:
+paths:
+
+EventSummeryList:
+  get:
+    tags: 
+      - Event
+    description: イベント情報一覧取得
+    operationId: GetEventSummeryList
+    parameters:
+    - $ref: ../utils/pager.yaml#/components/parameters/page
+    - $ref: ../utils/pager.yaml#/components/parameters/per_page
+    - $ref: ../utils/default.yaml#/components/parameters/event_type
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/event.yaml#/components/schemas/GetEventSummeryListRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+EventDetail:
+  get:
+    tags: 
+      - Event
+    description: イベント詳細情報取得
+    operationId: GetEventDetails
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/event.yaml#/components/schemas/GetEventDetailsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+

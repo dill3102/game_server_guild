@@ -1,0 +1,95 @@
+openapi: 3.0.2
+info:
+paths:
+
+Home:
+  get:
+    tags:
+      - User Home
+    description: ユーザーの家(敷地?)情報を取得する
+    operationId: GetUserHome
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/user_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/user_home.yaml#/components/schemas/UserHome
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+  post:
+    tags: 
+      - User Home
+    description: > 
+      ユーザーホームのアップグレード
+    operationId: PostUserHomeUpgrade
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/user_id
+    requestBody:
+      $ref: ../utils/default.yaml#/components/requestBodies/EmptyBody
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+UserFacilities:
+  get:
+    tags:
+      - User Home
+    description: ユーザーの家(敷地?)情報を取得する
+    operationId: GetUserFacilities
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/user_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/user_home.yaml#/components/schemas/GetFacilitiesRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+UserFacility:
+  post:
+    tags: 
+      - User Home
+    description: > 
+      ユーザーの施設のアップグレード
+    operationId: PostUserHomeFacilityUpgrade
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/user_id
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    requestBody:
+      $ref: ../utils/default.yaml#/components/requestBodies/EmptyBody
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+

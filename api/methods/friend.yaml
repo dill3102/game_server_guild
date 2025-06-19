@@ -1,0 +1,157 @@
+openapi: 3.0.2
+info:
+paths:
+
+Friends:
+  get:
+    tags: 
+      - Friend
+    description: フレンド一覧取得
+    operationId: GetFriends
+    parameters:
+      - $ref: ../utils/pager.yaml#/components/parameters/page
+      - $ref: ../utils/pager.yaml#/components/parameters/per_page
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/friend.yaml#/components/schemas/GetFriendsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+Friend:
+  get:
+    tags: 
+      - Friend
+    description: フレンド情報単体取得
+    operationId: GetFriend
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/friend.yaml#/components/schemas/GetFriendRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+  delete: 
+    tags: 
+      - Friend
+    description: フレンド解除
+    operationId: DeleteFriend
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+FriendshipRequests:
+  get:
+    tags: 
+      - Friend
+    description: フレンドリクエスト取得
+    operationId: GetFriendshipRequests
+    parameters:
+      - $ref: ../utils/pager.yaml#/components/parameters/page
+      - $ref: ../utils/pager.yaml#/components/parameters/per_page
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/friend.yaml#/components/schemas/GetFriendshipRequestDetailsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+  post: 
+    tags: 
+      - Friend
+    description: フレンドリクエストを作成
+    operationId: PostFriendRequest
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../models/user.yaml#/components/schemas/TargetUserIdReq
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+FriendshipRequest:
+  get:
+    tags: 
+      - Friend
+    description: フレンドリクエスト単体取得
+    operationId: GetFriendshipRequestDetails
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/friend.yaml#/components/schemas/GetFriendshipRequestDetailsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+  put:
+    tags: 
+      - Friend
+    description: >
+      フレンドリクエストを承諾もしくは、キャンセル 
+      自身の行った、自身が受けたフレンドリクエストに対して変更可能
+    operationId: PutFriendshipRequest
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../models/friend.yaml#/components/schemas/PutFriendshipRequest
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError

@@ -1,0 +1,130 @@
+openapi: 3.0.2
+info: 
+paths: 
+
+components:
+  schemas:
+    GetCharacterMasterSummeryListRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items: 
+            $ref: ./character.yaml#/components/schemas/CharacterMasterSummery
+        pager:
+          $ref: ../utils/pager.yaml#/components/schemas/Pager
+      required:
+        - items
+        - pager
+
+    GetCharacterDetailsRes:
+      type: object
+      properties:
+        item:
+          $ref: ./character.yaml#/components/schemas/CharacterMasterSummery
+      required:
+        - item
+    
+    GetCharacterEvolveTreeRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: ./character.yaml#/components/schemas/CharacterEvolve
+      required:
+        - items
+    
+    PostCharacterEvolveReq:
+      type: object
+      properties:
+        evolve_target_character_id:
+          description: 進化先のキャラクターid(キャラマスタのID)
+          $ref: ../utils/default.yaml#/components/schemas/Id
+      required:
+        - evolve_target_character_id
+
+    CharacterEvolve:
+      type: object
+      properties:
+        character:
+          $ref: ./character.yaml#/components/schemas/CharacterMasterSummery
+        evolve_number: 
+          type: integer
+          description: > 
+            進化順序の番号
+            id,     number, name
+            "0xaaa",      0, ピチュー
+            "0xbbb",      1, ピカチュウ
+            "0xccc",      2, ライチュウ
+            0のみで進化先が無いこともある
+            複数の方向への進化は出来る方がいいかぁ
+      required:
+        - character
+        - evolve_number
+
+    GetUserCharacterSummeryListRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items: 
+            $ref: ./character.yaml#/components/schemas/UserCharacterDetails
+        pager:
+          $ref: ../utils/pager.yaml#/components/schemas/Pager
+      required:
+        - items
+        - pager
+
+    GetUserCharacterDetailsRes:
+      type: object
+      properties:
+        item:
+          $ref: ./character.yaml#/components/schemas/UserCharacterDetails
+      required:
+        - item
+
+
+    CharacterMasterSummery:
+      type: object
+      properties:
+        id: 
+          $ref: ../utils/default.yaml#/components/schemas/Id
+          description: キャラID
+        name:
+          type: string
+          description: 種族名
+      required:
+        - id
+        - name
+        # - attack
+        # - defense
+        # - speed
+        # - max level
+        # - rarity
+        # image path
+
+    UserCharacterDetails:
+      type: object
+      properties:
+        id: 
+          $ref: ../utils/default.yaml#/components/schemas/Id
+          description: キャラID
+        master: 
+          $ref: ./character.yaml#/components/schemas/CharacterMasterSummery
+          description: Master データ
+        parent_user:
+          $ref: ./user.yaml#/components/schemas/UserSummery
+          description: 親(所有者)情報
+        get_at:
+          $ref: ../utils/default.yaml#/components/schemas/ExecuteAt
+          description: イベント開始時刻 UTC TIME
+        level:
+          type: integer
+          description: キャラクターのレベル(経験値)
+      required:
+        - id
+        - master
+        - parent_user
+        - get_at
+        - level

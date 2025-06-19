@@ -1,0 +1,194 @@
+openapi: 3.0.2
+info:
+paths:
+
+components:
+  schemas:
+    DefaultSuccess:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message: 
+          type: string
+          description: success
+        parameter: 
+          type: string
+          description: hoge
+      required:
+        - code
+        - message
+        - parameter
+    ExecuteAt:
+      type: integer
+      format: int64
+      description: UNIX TIME(JST)
+      example: 1735657200
+    Id:
+      type: string
+      description: 各機能で利用されるUUID
+      example: 0x11111111111111
+    UserId:
+      type: string
+      description: ユーザーのID
+      example: 0x22222222222222
+    GuildId:
+      type: string
+      description: ギルド用のID
+      example: 0x33333333333333
+    Resource:
+      type: object
+      properties:
+        balance:
+          type: integer
+          example: 1000000
+          description: 残高
+        resource_type:
+          type: integer
+          example: 1
+          description: お金の種別
+      required:
+        - balance
+        - resource_type
+    Approve:
+      type: boolean
+      description: >
+        許可する場合、また、+方向のものにtrueを基本とするが
+        APIの内容に合わせて調整する
+        例： フレンド申請を承認、却下
+          true: フレンドになる
+          false: フレンドにならない
+        例： ギルド参加申請
+          true: ギルドに入れる
+          false: ギルドに入れない
+    InviteUsers:
+      type: object
+      properties:
+        user_ids:
+          type: array
+          items:
+            type: string
+      description: ユーザーIDのリスト
+      example: [0x22222222222222, 0x22222222222223]
+    Vector2:
+      type: object
+      properties:
+        x: 
+          type: integer
+          description: X軸方向
+        y: 
+          type: integer
+          description: Y軸方向
+      required:
+        - x
+        - y
+
+    IsWin:
+      type: integer
+      description: >
+        0: 未確定 (default 0で処理したいから...)
+        1: 勝ち
+        2: 負け
+      enum: 
+        - 0
+        - 1
+        - 2
+    ResourcesType:
+      type: integer
+      description: >
+        0: 未確定
+        1: 金
+        2: 水
+        3: 食料
+        4: エリクサー
+        5: キャラクター収容可能数
+        6~: そのうち増やすかもねぇ...?
+      enum: 
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+  parameters:
+    param_id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 0x11111111111111
+    user_id:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 0x2222222222222
+    guild_id:
+      name: guild_id
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 0x3333333333333
+    event_id:
+      name: event_id
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 0x4444444444444
+
+    executer:
+      name: executer
+      in: query
+      schema:
+        type: string
+        enum: 
+          - my
+          - you
+          - other
+          - host
+      description: > 
+        1~3人称, 未定義を設定する
+        例： フレンドリクエスト
+          my: 私が行ったFR一覧を取得
+          other: 私以外が行ったFRを一覧を取得
+          you, host: ※この例では(多分)使用不可
+        例: メッセージ
+          my: 自身が送った
+          you: 特定のユーザーが送った
+          other: 私以外が送った
+          host: 運営が送った
+
+    filter_name:
+      name: name
+      in: query
+      schema: 
+        type: string
+      description: > 
+        名前でフィルターをする
+        例： ユーザー検索
+          path: ?name=山田
+          query: select * from users where name like("山田%")
+        例： ギルド
+          path: ?name=結盟騎士団
+          query: select * from guilds where name like("結盟騎士団%")
+      example: 山田
+
+    event_type:
+      name: event_type
+      in: query
+      schema: 
+        type: integer
+      description: 詳細は models/event.yaml にある...(はず)
+
+  
+  requestBodies:
+    EmptyBody:
+      description: 空のリクエストボディー
+      content: {}
+        
+

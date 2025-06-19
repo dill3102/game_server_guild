@@ -1,0 +1,174 @@
+// package main
+
+// import (
+// 	"fmt"
+// 	"go/ast"
+// 	"go/parser"
+// 	"go/token"
+// 	"io/fs"
+// 	"os"
+// 	"path/filepath"
+// 	"strings"
+// 	"unicode"
+// )
+
+// func main() {
+// 	if len(os.Args) < 3 {
+// 		fmt.Println("Usage: go run main.go <model_path> <output_dir>")
+// 		os.Exit(1)
+// 	}
+
+// 	inputPath := os.Args[1] // 例: "models"
+// 	outputDir := os.Args[2] // 例: "repositories"
+
+// 	if err := os.MkdirAll(outputDir, 0755); err != nil {
+// 		panic(err)
+// 	}
+
+// 	var files []string
+// 	fileInfo, err := os.Stat(inputPath)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+
+// 	if fileInfo.IsDir() {
+// 		filepath.WalkDir(inputPath, func(path string, d fs.DirEntry, err error) error {
+// 			if filepath.Base(path) == "main.go" {
+// 				return nil
+// 			}
+// 			if err == nil && !d.IsDir() && strings.HasSuffix(path, ".go") {
+// 				files = append(files, path)
+// 			}
+// 			return nil
+// 		})
+// 	} else {
+// 		files = append(files, inputPath)
+// 	}
+
+// 	for _, file := range files {
+// 		generateRepositoryFromFile(file, outputDir)
+// 	}
+// }
+
+// func generateRepositoryFromFile(filename, outputDir string) {
+// 	fset := token.NewFileSet()
+// 	node, err := parser.ParseFile(fset, filename, nil, parser.AllErrors)
+// 	if err != nil {
+// 		fmt.Printf("Failed to parse file %s: %v\n", filename, err)
+// 		return
+// 	}
+
+// 	var structName string
+
+// 	for _, decl := range node.Decls {
+// 		genDecl, ok := decl.(*ast.GenDecl)
+// 		if !ok || genDecl.Tok != token.TYPE {
+// 			continue
+// 		}
+
+// 		for _, spec := range genDecl.Specs {
+// 			typeSpec, ok := spec.(*ast.TypeSpec)
+// 			if !ok {
+// 				continue
+// 			}
+
+// 			if _, ok := typeSpec.Type.(*ast.StructType); ok {
+// 				structName = typeSpec.Name.Name
+// 				break
+// 			}
+// 		}
+// 	}
+
+// 	if structName == "" {
+// 		fmt.Printf("No struct found in %s\n", filename)
+// 		return
+// 	}
+
+// 	repoCode := generateGormRepositoryCode(structName)
+
+// 	outFile := filepath.Join(outputDir, fmt.Sprintf("%s_repository_crud.go", strings.ToLower(toSnakeCase(structName))))
+// 	os.WriteFile(outFile, []byte(repoCode), 0644)
+// 	fmt.Printf("Generated repository for %s -> %s\n", structName, outFile)
+// }
+
+// func generateGormRepositoryCode(name string) string {
+// 	lower := uncapitalize(name)
+
+// 	var b strings.Builder
+
+// 	b.WriteString("package repository\n\n")
+// 	b.WriteString("import (\n")
+// 	b.WriteString(`    "gorm.io/gorm"` + "\n")
+// 	b.WriteString(fmt.Sprintf(`    "%s/models"`, getModuleName()) + "\n")
+// 	b.WriteString(")\n\n")
+
+// 	fmt.Fprintf(&b, "type %sRepository interface {\n", name)
+// 	fmt.Fprintf(&b, "    GetByID(id string) (*models.%s, error)\n", name)
+// 	fmt.Fprintf(&b, "    Create(obj *models.%s) error\n", name)
+// 	fmt.Fprintf(&b, "    Update(obj *models.%s) error\n", name)
+// 	b.WriteString("    Delete(id string) error\n")
+// 	b.WriteString("}\n\n")
+
+// 	fmt.Fprintf(&b, "type %sRepositoryImpl struct {\n", lower)
+// 	b.WriteString("    db *gorm.DB\n")
+// 	b.WriteString("}\n\n")
+
+// 	fmt.Fprintf(&b, "func New%sRepository(db *gorm.DB) %sRepository {\n", name, name)
+// 	fmt.Fprintf(&b, "    return &%sRepositoryImpl{db: db}\n", lower)
+// 	b.WriteString("}\n\n")
+
+// 	b.WriteString("// GORM実装\n")
+// 	fmt.Fprintf(&b, "func (r *%sRepositoryImpl) GetByID(id string) (*models.%s, error) {\n", lower, name)
+// 	fmt.Fprintf(&b, "    var obj models.%s\n", name)
+// 	b.WriteString("    if err := r.db.First(&obj, id).Error; err != nil {\n")
+// 	b.WriteString("        return nil, err\n")
+// 	b.WriteString("    }\n")
+// 	b.WriteString("    return &obj, nil\n")
+// 	b.WriteString("}\n\n")
+
+// 	fmt.Fprintf(&b, "func (r *%sRepositoryImpl) Create(obj *models.%s) error {\n", lower, name)
+// 	b.WriteString("    return r.db.Create(obj).Error\n")
+// 	b.WriteString("}\n\n")
+
+// 	fmt.Fprintf(&b, "func (r *%sRepositoryImpl) Update(obj *models.%s) error {\n", lower, name)
+// 	b.WriteString("    return r.db.Save(obj).Error\n")
+// 	b.WriteString("}\n\n")
+
+// 	fmt.Fprintf(&b, "func (r *%sRepositoryImpl) Delete(id string) error {\n", lower)
+// 	fmt.Fprintf(&b, "    return r.db.Delete(&models.%s{}, id).Error\n", name)
+// 	b.WriteString("}\n")
+
+// 	return b.String()
+// }
+
+// // go.mod のモジュール名を取得（modelsのimportに使う）
+// func getModuleName() string {
+// 	content, err := os.ReadFile("go.mod")
+// 	if err != nil {
+// 		return "your/module" // fallback
+// 	}
+// 	lines := strings.Split(string(content), "\n")
+// 	for _, line := range lines {
+// 		if strings.HasPrefix(line, "module ") {
+// 			return strings.TrimSpace(strings.TrimPrefix(line, "module "))
+// 		}
+// 	}
+// 	return "your/module"
+// }
+// func toSnakeCase(str string) string {
+// 	var result []rune
+// 	for i, r := range str {
+// 		if unicode.IsUpper(r) && i > 0 {
+// 			result = append(result, '_')
+// 		}
+// 		result = append(result, unicode.ToLower(r))
+// 	}
+// 	return string(result)
+// }
+
+// func uncapitalize(str string) string {
+// 	if len(str) == 0 {
+// 		return ""
+// 	}
+// 	return strings.ToLower(str[:1]) + str[1:]
+// }

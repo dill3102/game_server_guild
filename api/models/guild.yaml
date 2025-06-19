@@ -1,0 +1,154 @@
+openapi: 3.0.2
+info: 
+paths: 
+
+components:
+  schemas:
+    GuildInfoUpdateReq:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 結盟騎士団
+        introduction:
+          type: string
+          example: 初心者用ギルド
+        icon: 
+          type: string
+          example: example.png
+      required:
+        - name
+        - introduction
+        - icon
+
+    GetGuildsRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: ./guild.yaml#/components/schemas/GuildDetails
+        pager:
+          $ref: ../utils/pager.yaml#/components/schemas/Pager
+      required:
+        - items
+        - pager
+
+    GetGuildDetailsRes:
+      type: object
+      properties:
+        item:
+          $ref: ./guild.yaml#/components/schemas/GuildDetails
+      required:
+        - item
+
+    GetGuildJoinReqsRes:
+      type: object
+      properties:
+        requests:
+          type: array
+          items:
+            $ref: ./guild.yaml#/components/schemas/GuildJoinReq
+        pager:
+          $ref: ../utils/pager.yaml#/components/schemas/Pager
+      required:
+        - requests
+        - pager
+
+    GetGuildJoinReqDetails:
+      type: object
+      properties:
+        request:
+          $ref: ./guild.yaml#/components/schemas/GuildJoinReq
+        execute_at: 
+          $ref: ../utils/default.yaml#/components/schemas/ExecuteAt
+      required:
+        - request
+    
+    PutGuildJoinReqApprove:
+      type: object
+      properties:
+        join_approve:
+          $ref: ../utils/default.yaml#/components/schemas/Approve
+      required:
+        - join_approve
+
+    GuildSummery:
+      type: object
+      properties:
+        id:
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        name: 
+          type: string
+          description: ギルド名
+          example: 結盟騎士団
+        icon:
+          type: string
+          description: アイコン設定
+      required:
+        - id
+        - name
+        - icon
+
+    GuildDetails:
+      type: object
+      properties:
+        id:
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        name: 
+          type: string
+          description: ギルド名
+          example: 結盟騎士団
+        introduction:
+          type: string
+          description: ギルド紹介
+          example: 初心者用ギルド
+        level:
+          type: integer
+          description: ギルドLv
+          example: 10
+        icon:
+          type: string
+          description: アイコン設定
+          example: example.png
+        guild_leader:
+          $ref: ./user.yaml#/components/schemas/User
+        members: 
+          type: array
+          items: 
+            $ref: ./user.yaml#/components/schemas/User
+        is_private: 
+          type: boolean
+          description: 公開ギルド設定
+          example: false
+        guild_battle_win:
+          type: integer
+          description: ギルドバトル勝利数
+          example: 10
+        need_approve:
+          type: boolean
+          description: 加入にメンバーの許可制を取る
+          example: false
+        create_at:
+          $ref: ../utils/default.yaml#/components/schemas/ExecuteAt
+          description: 作成日時
+      required:
+        - id
+        - name
+        - introduction
+        - level
+        - icon
+        - guild_leader
+        - members
+        - is_private
+        - guild_battle_win
+        - need_approve
+        - create_at
+
+    GuildJoinReq:
+      type: object
+      properties:
+        id:
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        user:
+          $ref: ./user.yaml#/components/schemas/User

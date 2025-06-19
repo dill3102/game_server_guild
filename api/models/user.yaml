@@ -1,0 +1,81 @@
+openapi: 3.0.2
+info: 
+paths: 
+
+components:
+  schemas:
+    PostCreateUserReq:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 山田 太郎
+          description: ユーザー名
+        password: 
+          type: string
+          example: user_password
+          description: user_password
+      required:
+        - name
+        - password
+    
+    TargetUserIdReq:
+      type: object
+      properties:
+        id: 
+          type: string
+          example: 0x22222222222222
+          description: ユーザーID
+
+    UserSummery:
+      type: object
+      properties:
+        id: 
+          type: string
+          example: 0x22222222222222
+        name:
+          type: string
+          example: 山田 太郎
+        icon: 
+          type: string
+          example: example.png        
+
+    User:
+      type: object
+      properties:
+        id: 
+          type: string
+          example: 0x22222222222222
+        name:
+          type: string
+          example: 山田 太郎
+        introduction:
+          type: string
+          example: 自己紹介的なやつ
+        icon: 
+          type: string
+          example: example.png
+        last_activity_at:
+          type: integer
+          format: int64
+          description: Unix Time (jst) 最終操作時刻(ログイン日等の確認用)
+        guild: 
+          $ref: ./guild.yaml#/components/schemas/GuildSummery
+          description: 所属中のギルド, 未所属の場合空
+        wallets:
+          type: array
+          items:
+            $ref: ../utils/default.yaml#/components/schemas/Resource
+          description: 所持金等残高 (※自身の情報取得以外の時は空配列を返却)
+        strongest_character:
+          $ref: ./character.yaml#/components/schemas/UserCharacterDetails
+      required:
+      - name
+      - introduction
+      - last_activity_at
+      - icon
+      - wallets
+      - strongest_character
+      # そのうち追加するかも
+      # - アイコン
+      # - Lv

@@ -1,0 +1,2207 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: Own World System API
+  license:
+    name: License
+    url: http://example.com
+servers:
+  - url: http://localhost:8081/
+tags:
+  - name: Me
+    description: リクエストを行ったユーザー自身に対する操作群
+  - name: Auth
+    description: 認証に関するAPI群
+  - name: Friend
+    description: フレンド登録に関するAPI
+  - name: Message
+    description: ユーザー間, 運営からのメッセージに関するもの
+  - name: Event
+    description: イベント情報
+  - name: Guild
+    description: ギルドに関するもの
+  - name: Guild Fund
+    description: ギルドの資金に関するもの
+  - name: Guild Battle
+    description: ギルド間抗争に関するもの
+  - name: Guild Event Matting
+    description: ギルド間抗争のマッチングに関するもの
+  - name: Character
+    description: キャラクターに関するもの
+  - name: Facility
+    description: 施設に関するもの
+paths:
+  /v1/me:
+    get:
+      tags:
+        - Me
+      description: 自身の情報を取得する
+      operationId: GetMe
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    post:
+      tags:
+        - Me
+      description: アカウント作成
+      operationId: CreateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCreateUserReq'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/login:
+    post:
+      tags:
+        - Auth
+      description: ユーザーログイン
+      operationId: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCreateUserReq'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/friends:
+    get:
+      tags:
+        - Friend
+      description: フレンド一覧取得
+      operationId: GetFriends
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFriendsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/friend/{id}:
+    get:
+      tags:
+        - Friend
+      description: フレンド情報単体取得
+      operationId: GetFriend
+      parameters:
+        - $ref: '#/components/parameters/param_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFriendRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    delete:
+      tags:
+        - Friend
+      description: フレンド解除
+      operationId: DeleteFriend
+      parameters:
+        - $ref: '#/components/parameters/param_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/friend/requests:
+    get:
+      tags:
+        - Friend
+      description: フレンドリクエスト取得
+      operationId: GetFriendshipRequests
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFriendshipRequestDetailsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    post:
+      tags:
+        - Friend
+      description: フレンドリクエストを作成
+      operationId: PostFriendRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TargetUserIdReq'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/friend/requests/{id}:
+    get:
+      tags:
+        - Friend
+      description: フレンドリクエスト単体取得
+      operationId: GetFriendshipRequestDetails
+      parameters:
+        - $ref: '#/components/parameters/param_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFriendshipRequestDetailsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    put:
+      tags:
+        - Friend
+      description: |
+        フレンドリクエストを承諾もしくは、キャンセル  自身の行った、自身が受けたフレンドリクエストに対して変更可能
+      operationId: PutFriendshipRequest
+      parameters:
+        - $ref: '#/components/parameters/param_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutFriendshipRequest'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/message/room:
+    get:
+      tags:
+        - Message
+      description: メッセージルーム一覧取得
+      operationId: GetMessageRooms
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessageRoomsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    post:
+      tags:
+        - Message
+      description: メッセージルーム作成
+      operationId: CreateMessageRoom
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageRoomUpdateReq'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/message/room/{id}:
+    get:
+      tags:
+        - Message
+      description: メッセージルーム情報単体取得
+      operationId: GetMessageRoom
+      parameters:
+        - $ref: '#/components/parameters/param_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessageRoomRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    delete:
+      tags:
+        - Message
+      description: メッセージルームからの退会
+      operationId: DeleteMessageRoom
+      parameters:
+        - $ref: '#/components/parameters/param_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/message/room/{id}/chats:
+    get:
+      tags:
+        - Message
+      description: メッセージルーム内のチャットを取得
+      operationId: GetMessageRoomChat
+      parameters:
+        - $ref: '#/components/parameters/param_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessageRoomChatsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    post:
+      tags:
+        - Message
+      description: メッセージルームへチャットを投稿
+      operationId: PostMessageRoomChat
+      parameters:
+        - $ref: '#/components/parameters/param_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostMessageRoomChatReq'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/message/room/{id}/chat/fix:
+    put:
+      tags:
+        - Message
+      description: チャット内容の編集
+      operationId: PutMessageRoomChat
+      parameters:
+        - $ref: '#/components/parameters/param_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutMessageRoomChatReq'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    delete:
+      tags:
+        - Message
+      description: チャット削除
+      operationId: DeleteMessageRoomChat
+      parameters:
+        - $ref: '#/components/parameters/param_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/events:
+    get:
+      tags:
+        - Event
+      description: イベント情報一覧取得
+      operationId: GetEventSummeryList
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+        - $ref: '#/components/parameters/event_type'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetEventSummeryListRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/events/{id}:
+    get:
+      tags:
+        - Event
+      description: イベント詳細情報取得
+      operationId: GetEventDetails
+      parameters:
+        - $ref: '#/components/parameters/param_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetEventDetailsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guilds:
+    get:
+      tags:
+        - Guild
+      description: ギルド一覧取得
+      operationId: GetGuilds
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGuildsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    post:
+      tags:
+        - Guild
+      description: ギルド作成
+      operationId: CreateGuild
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuildInfoUpdateReq'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/{guild_id}:
+    get:
+      tags:
+        - Guild
+      description: ギルド情報単体取得
+      operationId: GetGuild
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGuildDetailsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/{guild_id}/join:
+    post:
+      tags:
+        - Guild
+      description: ギルド参加リクエスト
+      operationId: JoinGuildReq
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+      requestBody:
+        $ref: '#/components/requestBodies/EmptyBody'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    delete:
+      tags:
+        - Guild
+      description: ギルド参加リクエストの削除
+      operationId: DeleteJoinGuildReq
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/{guild_id}/exit:
+    delete:
+      tags:
+        - Guild
+      description: ギルドからの脱退
+      operationId: ExitGuild
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/{guild_id}/leader:
+    put:
+      tags:
+        - Guild
+      description: |
+        ギルドリーダーの変更 ※リーダーのみが実行権限を持つ
+      operationId: ChangeGuildLeader
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Id'
+              description: メンバー ID
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/{guild_id}/leader/info:
+    put:
+      tags:
+        - Guild
+      description: |
+        ギルド情報更新取得 ※リーダーのみが実行権限を持つ
+      operationId: PutGuild
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuildInfoUpdateReq'
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    delete:
+      tags:
+        - Guild
+      description: |
+        ギルドの削除 ※リーダーのみが実行権限を持つ
+      operationId: DeleteGuild
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/{guild_id}/leader/join:
+    get:
+      tags:
+        - Guild
+      description: |
+        ギルドへの加入申請一覧取得 ※リーダーのみが実行権限を持つ
+      operationId: GetGuildJoinReq
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGuildJoinReqsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    put:
+      tags:
+        - Guild
+      description: |
+        ギルド参加リクエストの承認、キャンセル等 ※リーダーのみが実行権限を持つ
+      operationId: ApproveJoinGuildReq
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutGuildJoinReqApprove'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/{guild_id}/leader/members/{user_id}:
+    delete:
+      tags:
+        - Guild
+      description: |
+        ギルドメンバーのキック ※リーダーのみが実行権限を持つ
+      operationId: KickGuildMember
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+        - $ref: '#/components/parameters/user_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/{guild_id}/leader/upgrade:
+    post:
+      tags:
+        - Guild
+      description: |
+        ギルドのアップグレード ※リーダーのみが実行権限を持つ
+      operationId: PostGuildUpgrade
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+      requestBody:
+        $ref: '#/components/requestBodies/EmptyBody'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/{guild_id}/funds:
+    get:
+      tags:
+        - Guild Fund
+      description: ギルド内の資金取得
+      operationId: GetGuildFund
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGuildFundRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    post:
+      tags:
+        - Guild Fund
+      description: ギルドへの資金投資
+      operationId: PostGuildFund
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Resource'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/{guild_id}/funds/logs:
+    get:
+      tags:
+        - Guild Fund
+      description: ギルドの資金収支ログ取得
+      operationId: GetGuildFundLogs
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGuildFundLogsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/{guild_id}/funds/logs/{id}:
+    get:
+      tags:
+        - Guild Fund
+      description: ギルドの資金収支ログ詳細取得
+      operationId: GetGuildFundLogDetails
+      parameters:
+        - $ref: '#/components/parameters/guild_id'
+        - $ref: '#/components/parameters/param_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGuildFundLogDetailsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/battle/events:
+    get:
+      tags:
+        - Guild Battle
+      description: 過去のギルドバトルの結果取得
+      operationId: GetGuildBattleResults
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuildBattleEventSummeryResultsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/battle/event/{event_id}/result:
+    get:
+      tags:
+        - Guild Battle
+      description: ギルドバトル詳細取得
+      operationId: GetGuildBattleLogDetails
+      parameters:
+        - $ref: '#/components/parameters/event_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuildBattleEventResultRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/battle/event/{event_id}/leader:
+    get:
+      tags:
+        - Guild Battle
+      description: ギルドバトル 登録情報取得
+      operationId: GetGuildBattleEvents
+      parameters:
+        - $ref: '#/components/parameters/event_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuildBattleEventRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    post:
+      tags:
+        - Guild Battle
+      description: ギルドバトルエントリー
+      operationId: PostGuildBattleEventEntry
+      parameters:
+        - $ref: '#/components/parameters/event_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Resource'
+              description: 資金登録(追加)
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    delete:
+      tags:
+        - Guild Battle
+      description: |
+        ギルドバトルエントリー解除 ※ キャラクター登録も削除 ※ 資金預かりも解除
+      operationId: DeleteGuildBattleEventEntry
+      parameters:
+        - $ref: '#/components/parameters/event_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/battle/event/{event_id}/register:
+    post:
+      tags:
+        - Guild Battle
+      description: ギルドバトルにキャラクターを登録する
+      operationId: PostGuildBattleCharacterRegister
+      parameters:
+        - $ref: '#/components/parameters/event_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuildBattleEntryCharacterReq'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/battle/event/{event_id}/mattings:
+    get:
+      tags:
+        - Guild Event Matting
+      description: ギルドバトル詳細取得
+      operationId: GetGuildBattleEventMattings
+      parameters:
+        - $ref: '#/components/parameters/event_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuildBattleEventMattingsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/guild/battle/event/{event_id}/mattings/{id}:
+    get:
+      tags:
+        - Guild Event Matting
+      description: ギルドバトル詳細取得
+      operationId: GetGuildBattleEventMattingDetails
+      parameters:
+        - $ref: '#/components/parameters/event_id'
+        - $ref: '#/components/parameters/param_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuildBattleEventResultRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/characters:
+    get:
+      tags:
+        - Character
+      description: キャラクターマスター情報一覧取得
+      operationId: GetCharacterSummeryList
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCharacterMasterSummeryListRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/characters/{id}:
+    get:
+      tags:
+        - Character
+      description: キャラクターマスター詳細情報単体取得
+      operationId: GetCharacterDetails
+      parameters:
+        - $ref: '#/components/parameters/param_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCharacterDetailsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/characters/{id}/evolve/tree:
+    get:
+      tags:
+        - Character
+      description: キャラクターの進化ツリーを取得
+      operationId: GetCharacterEvolveTree
+      parameters:
+        - $ref: '#/components/parameters/param_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCharacterEvolveTreeRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/user/{user_id}/characters:
+    get:
+      tags:
+        - Character
+      description: ユーザーのキャラクター情報取得
+      operationId: GetUserCharacterSummeryList
+      parameters:
+        - $ref: '#/components/parameters/user_id'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserCharacterSummeryListRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/user/{user_id}/character/{id}:
+    get:
+      tags:
+        - Character
+      description: ユーザーのキャラクター詳細情報単体取得
+      operationId: GetUserCharacterDetails
+      parameters:
+        - $ref: '#/components/parameters/user_id'
+        - $ref: '#/components/parameters/param_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserCharacterDetailsRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/user/{user_id}/character/{id}/experience:
+    post:
+      tags:
+        - Character
+      description: キャラクターの経験値加算
+      operationId: PostCharacterExperience
+      parameters:
+        - $ref: '#/components/parameters/user_id'
+        - $ref: '#/components/parameters/param_id'
+      requestBody:
+        $ref: '#/components/requestBodies/EmptyBody'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/user/{user_id}/character/{id}/evolve:
+    post:
+      tags:
+        - Character
+      description: キャラクターの進化
+      operationId: PostEvolveCharacter
+      parameters:
+        - $ref: '#/components/parameters/user_id'
+        - $ref: '#/components/parameters/param_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCharacterEvolveReq'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/user/{user_id}/home:
+    get:
+      tags:
+        - User Home
+      description: ユーザーの家(敷地?)情報を取得する
+      operationId: GetUserHome
+      parameters:
+        - $ref: '#/components/parameters/user_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserHome'
+        default:
+          $ref: '#/components/responses/DefaultError'
+    post:
+      tags:
+        - User Home
+      description: |
+        ユーザーホームのアップグレード
+      operationId: PostUserHomeUpgrade
+      parameters:
+        - $ref: '#/components/parameters/user_id'
+      requestBody:
+        $ref: '#/components/requestBodies/EmptyBody'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/user/{user_id}/home/facility:
+    get:
+      tags:
+        - User Home
+      description: ユーザーの家(敷地?)情報を取得する
+      operationId: GetUserFacilities
+      parameters:
+        - $ref: '#/components/parameters/user_id'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFacilitiesRes'
+        default:
+          $ref: '#/components/responses/DefaultError'
+  /v1/user/{user_id}/home/facility/{id}:
+    post:
+      tags:
+        - User Home
+      description: |
+        ユーザーの施設のアップグレード
+      operationId: PostUserHomeFacilityUpgrade
+      parameters:
+        - $ref: '#/components/parameters/user_id'
+        - $ref: '#/components/parameters/param_id'
+      requestBody:
+        $ref: '#/components/requestBodies/EmptyBody'
+      responses:
+        '200':
+          description: default Success
+          headers:
+            x-server-time:
+              $ref: '#/components/headers/x-server-time'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultSuccess'
+        default:
+          $ref: '#/components/responses/DefaultError'
+components:
+  schemas:
+    ErrorRes:
+      type: object
+      properties:
+        code:
+          type: integer
+          enum:
+            - 500
+        message:
+          type: string
+          description: Internal Server Error
+      required:
+        - code
+        - message
+    Id:
+      type: string
+      description: 各機能で利用されるUUID
+      example: 4803839602528529
+    GuildSummery:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        name:
+          type: string
+          description: ギルド名
+          example: 結盟騎士団
+        icon:
+          type: string
+          description: アイコン設定
+      required:
+        - id
+        - name
+        - icon
+    Resource:
+      type: object
+      properties:
+        balance:
+          type: integer
+          example: 1000000
+          description: 残高
+        resource_type:
+          type: integer
+          example: 1
+          description: お金の種別
+      required:
+        - balance
+        - resource_type
+    CharacterMasterSummery:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+          description: キャラID
+        name:
+          type: string
+          description: 種族名
+      required:
+        - id
+        - name
+    UserSummery:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 9607679205057058
+        name:
+          type: string
+          example: 山田 太郎
+        icon:
+          type: string
+          example: example.png
+    ExecuteAt:
+      type: integer
+      format: int64
+      description: UNIX TIME(JST)
+      example: 1735657200
+    UserCharacterDetails:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+          description: キャラID
+        master:
+          $ref: '#/components/schemas/CharacterMasterSummery'
+          description: Master データ
+        parent_user:
+          $ref: '#/components/schemas/UserSummery'
+          description: 親(所有者)情報
+        get_at:
+          $ref: '#/components/schemas/ExecuteAt'
+          description: イベント開始時刻 UTC TIME
+        level:
+          type: integer
+          description: キャラクターのレベル(経験値)
+      required:
+        - id
+        - master
+        - parent_user
+        - get_at
+        - level
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 9607679205057058
+        name:
+          type: string
+          example: 山田 太郎
+        introduction:
+          type: string
+          example: 自己紹介的なやつ
+        icon:
+          type: string
+          example: example.png
+        last_activity_at:
+          type: integer
+          format: int64
+          description: Unix Time (jst) 最終操作時刻(ログイン日等の確認用)
+        guild:
+          $ref: '#/components/schemas/GuildSummery'
+          description: 所属中のギルド, 未所属の場合空
+        wallets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+          description: 所持金等残高 (※自身の情報取得以外の時は空配列を返却)
+        strongest_character:
+          $ref: '#/components/schemas/UserCharacterDetails'
+      required:
+        - name
+        - introduction
+        - last_activity_at
+        - icon
+        - wallets
+        - strongest_character
+    PostCreateUserReq:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 山田 太郎
+          description: ユーザー名
+        password:
+          type: string
+          example: user_password
+          description: user_password
+      required:
+        - name
+        - password
+    DefaultSuccess:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          description: success
+        parameter:
+          type: string
+          description: hoge
+      required:
+        - code
+        - message
+        - parameter
+    Friend:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        user:
+          $ref: '#/components/schemas/User'
+        execute_at:
+          $ref: '#/components/schemas/ExecuteAt'
+    Pager:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+          description: ページ数
+        per_page:
+          type: integer
+          example: 10
+          description: ページに含まれる枚数
+        count:
+          type: integer
+          example: 100
+          description: データ量
+      required:
+        - page
+        - per_page
+        - count
+    GetFriendsRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Friend'
+        pager:
+          $ref: '#/components/schemas/Pager'
+      required:
+        - items
+    GetFriendRes:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/Friend'
+      required:
+        - item
+    FriendshipRequestDetails:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        execute_user:
+          $ref: '#/components/schemas/User'
+          description: フレンド申請を行ったユーザー
+        execute_at:
+          $ref: '#/components/schemas/ExecuteAt'
+      required:
+        - id
+        - executer_name
+        - execute_at
+    GetFriendshipRequestDetailsRes:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/FriendshipRequestDetails'
+      required:
+        - request
+    TargetUserIdReq:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 9607679205057058
+          description: ユーザーID
+    Approve:
+      type: boolean
+      description: |
+        許可する場合、また、+方向のものにtrueを基本とするが APIの内容に合わせて調整する 例： フレンド申請を承認、却下
+          true: フレンドになる
+          false: フレンドにならない
+        例： ギルド参加申請
+          true: ギルドに入れる
+          false: ギルドに入れない
+    PutFriendshipRequest:
+      type: object
+      properties:
+        friendship_approve:
+          $ref: '#/components/schemas/Approve'
+    MessageRoom:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        name:
+          type: string
+          description: 部屋名
+          example: 結盟騎士団メッセージルーム
+        icon:
+          type: string
+          description: アイコン設定
+          example: example.png
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        last_messaged_at:
+          $ref: '#/components/schemas/ExecuteAt'
+          description: 最終連絡時刻
+        have_unread:
+          type: boolean
+          description: 未読メッセージの有無情報
+      required:
+        - id
+        - name
+        - icon
+        - members
+        - last_messaged_at
+        - have_unread
+    GetMessageRoomsRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageRoom'
+        pager:
+          $ref: '#/components/schemas/Pager'
+      required:
+        - items
+        - pager
+    InviteUsers:
+      type: object
+      properties:
+        user_ids:
+          type: array
+          items:
+            type: string
+      description: ユーザーIDのリスト
+      example:
+        - 9607679205057058
+        - 9607679205057060
+    MessageRoomUpdateReq:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 結盟騎士団チャットルーム(団長抜き)
+        icon:
+          type: string
+          example: example.png
+        invite_users:
+          $ref: '#/components/schemas/InviteUsers'
+      required:
+        - name
+        - icon
+        - invite_users
+    GetMessageRoomRes:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/MessageRoom'
+      required:
+        - item
+    chat:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        message:
+          type: string
+          description: メッセージ本体
+          example: Hello World!
+        last_messaged_at:
+          $ref: '#/components/schemas/ExecuteAt'
+      required:
+        - id
+        - message
+        - last_messaged_at
+    GetMessageRoomChatsRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/chat'
+        pager:
+          $ref: '#/components/schemas/Pager'
+      required:
+        - items
+        - pager
+    PostMessageRoomChatReq:
+      type: object
+      properties:
+        item:
+          type: string
+          description: チャット内容
+          example: Hello World!
+      required:
+        - item
+    PutMessageRoomChatReq:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        chat:
+          type: string
+          description: チャット内容
+          example: Hello World!
+      required:
+        - id
+        - chat
+    EventTypeEnum:
+      type: integer
+      enum:
+        - 1
+        - 11
+        - 12
+        - 13
+        - 14
+        - 15
+        - 20
+        - 30
+        - 40
+    EventSummery:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        name:
+          type: string
+          description: イベント名
+          example: 〇〇イベント
+        since:
+          $ref: '#/components/schemas/ExecuteAt'
+          description: イベント開始時刻 UTC TIME
+        until:
+          $ref: '#/components/schemas/ExecuteAt'
+          description: イベント終了
+        event_type:
+          $ref: '#/components/schemas/EventTypeEnum'
+      required:
+        - id
+        - name
+        - since
+        - until
+        - event_type
+    GetEventSummeryListRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventSummery'
+        pager:
+          $ref: '#/components/schemas/Pager'
+      required:
+        - items
+        - pager
+    EventDetails:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        parent_event_id:
+          $ref: '#/components/schemas/Id'
+          description: 親イベント(主従の場合に親に登録する形になるため)
+        name:
+          type: string
+          description: イベント名
+          example: 〇〇イベント
+        since:
+          $ref: '#/components/schemas/ExecuteAt'
+          description: イベント開始時刻 UTC TIME
+        until:
+          $ref: '#/components/schemas/ExecuteAt'
+          description: イベント終了
+        event_type:
+          $ref: '#/components/schemas/EventTypeEnum'
+        thumbnail:
+          type: string
+          example: example.png
+        desc_block:
+          type: string
+          description: htmlのblockを表示する
+          example: <title> ギルドバトル開催</title>
+      required:
+        - id
+        - name
+        - since
+        - until
+        - event_type
+        - thumbnail
+        - desc_block
+    GetEventDetailsRes:
+      type: object
+      properties:
+        event:
+          $ref: '#/components/schemas/EventDetails'
+      required:
+        - event
+    GuildDetails:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        name:
+          type: string
+          description: ギルド名
+          example: 結盟騎士団
+        introduction:
+          type: string
+          description: ギルド紹介
+          example: 初心者用ギルド
+        level:
+          type: integer
+          description: ギルドLv
+          example: 10
+        icon:
+          type: string
+          description: アイコン設定
+          example: example.png
+        guild_leader:
+          $ref: '#/components/schemas/User'
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        is_private:
+          type: boolean
+          description: 公開ギルド設定
+          example: false
+        guild_battle_win:
+          type: integer
+          description: ギルドバトル勝利数
+          example: 10
+        need_approve:
+          type: boolean
+          description: 加入にメンバーの許可制を取る
+          example: false
+        create_at:
+          $ref: '#/components/schemas/ExecuteAt'
+          description: 作成日時
+      required:
+        - id
+        - name
+        - introduction
+        - level
+        - icon
+        - guild_leader
+        - members
+        - is_private
+        - guild_battle_win
+        - need_approve
+        - create_at
+    GetGuildsRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/GuildDetails'
+        pager:
+          $ref: '#/components/schemas/Pager'
+      required:
+        - items
+        - pager
+    GuildInfoUpdateReq:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 結盟騎士団
+        introduction:
+          type: string
+          example: 初心者用ギルド
+        icon:
+          type: string
+          example: example.png
+      required:
+        - name
+        - introduction
+        - icon
+    GetGuildDetailsRes:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/GuildDetails'
+      required:
+        - item
+    GuildJoinReq:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        user:
+          $ref: '#/components/schemas/User'
+    GetGuildJoinReqsRes:
+      type: object
+      properties:
+        requests:
+          type: array
+          items:
+            $ref: '#/components/schemas/GuildJoinReq'
+        pager:
+          $ref: '#/components/schemas/Pager'
+      required:
+        - requests
+        - pager
+    PutGuildJoinReqApprove:
+      type: object
+      properties:
+        join_approve:
+          $ref: '#/components/schemas/Approve'
+      required:
+        - join_approve
+    GetGuildFundRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+      required:
+        - items
+    GuildFundLog:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        user_name:
+          type: string
+          description: ユーザー名
+          example: 山田 太郎
+        money:
+          $ref: '#/components/schemas/Resource'
+        fund_log_type:
+          type: integer
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+        receipt:
+          type: string
+          description: 利用目的を返却
+          example: |
+            {item名}を{fund_log_type(1, 支出)}購入 {報酬名}を{fund_log_type(3, 報酬)}受け取り
+        execute_at:
+          $ref: '#/components/schemas/ExecuteAt'
+          description: 作成日時
+      required:
+        - id
+        - user_name
+        - money
+        - fund_log_type
+        - receipt
+        - execute_at
+    GetGuildFundLogsRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/GuildFundLog'
+        pager:
+          $ref: '#/components/schemas/Pager'
+      required:
+        - items
+        - pager
+    GetGuildFundLogDetailsRes:
+      type: object
+      properties:
+        guild:
+          $ref: '#/components/schemas/GuildFundLog'
+      required:
+        - guild
+    GuildBattleResultSummery:
+      type: object
+      properties:
+        win_guild_summery:
+          $ref: '#/components/schemas/GuildSummery'
+        lose_guild_summery:
+          $ref: '#/components/schemas/GuildSummery'
+        event_summery:
+          $ref: '#/components/schemas/EventSummery'
+      required:
+        - win_guild_summery
+        - lose_guild_summery
+        - event_summery
+    GuildBattleEventSummeryResultsRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/GuildBattleResultSummery'
+        pager:
+          $ref: '#/components/schemas/Pager'
+      required:
+        - items
+        - pager
+    GuildBattleResult:
+      type: object
+      properties:
+        win_guild:
+          $ref: '#/components/schemas/GuildSummery'
+        lose_guild:
+          $ref: '#/components/schemas/GuildSummery'
+        event:
+          $ref: '#/components/schemas/EventDetails'
+      required:
+        - win_guild
+        - lose_guild
+        - event
+    GuildBattleEventResultRes:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/GuildBattleResult'
+      required:
+        - item
+    GuildBattleEventRes:
+      type: object
+      properties:
+        is_entry:
+          type: boolean
+          description: エントリー状況
+        event:
+          $ref: '#/components/schemas/EventDetails'
+        characters:
+          $ref: '#/components/schemas/UserCharacterDetails'
+          description: ギルド全体で登録されているキャラクターs
+      required:
+        - is_entry
+        - event
+        - characters
+    GuildBattleEntryCharacterReq:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+          description: |
+            空の時は全て外す
+      required:
+        - items
+    GuildBattleEventMattingSummery:
+      type: object
+      properties:
+        guild_a:
+          $ref: '#/components/schemas/GuildSummery'
+        guild_b:
+          $ref: '#/components/schemas/GuildSummery'
+      required:
+        - guild_a
+        - guild_b
+    GuildBattleEventMattingsRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/GuildBattleEventMattingSummery'
+      required:
+        - items
+    GetCharacterMasterSummeryListRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacterMasterSummery'
+        pager:
+          $ref: '#/components/schemas/Pager'
+      required:
+        - items
+        - pager
+    GetCharacterDetailsRes:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/CharacterMasterSummery'
+      required:
+        - item
+    CharacterEvolve:
+      type: object
+      properties:
+        character:
+          $ref: '#/components/schemas/CharacterMasterSummery'
+        evolve_number:
+          type: integer
+          description: |
+            進化順序の番号 id,     number, name "0xaaa",      0, ピチュー "0xbbb",      1, ピカチュウ "0xccc",      2, ライチュウ 0のみで進化先が無いこともある 複数の方向への進化は出来る方がいいかぁ
+      required:
+        - character
+        - evolve_number
+    GetCharacterEvolveTreeRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacterEvolve'
+      required:
+        - items
+    GetUserCharacterSummeryListRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCharacterDetails'
+        pager:
+          $ref: '#/components/schemas/Pager'
+      required:
+        - items
+        - pager
+    GetUserCharacterDetailsRes:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/UserCharacterDetails'
+      required:
+        - item
+    PostCharacterEvolveReq:
+      type: object
+      properties:
+        evolve_target_character_id:
+          description: 進化先のキャラクターid(キャラマスタのID)
+          $ref: '#/components/schemas/Id'
+      required:
+        - evolve_target_character_id
+    Vector2:
+      type: object
+      properties:
+        x:
+          type: integer
+          description: X軸方向
+        'y':
+          type: integer
+          description: Y軸方向
+      required:
+        - x
+        - 'y'
+    UserHomeMaster:
+      type: object
+      properties:
+        scale:
+          $ref: '#/components/schemas/Vector2'
+        level:
+          type: integer
+          description: グレード的な意味でのレベル
+      required:
+        - scale
+        - level
+    FacilityType:
+      type: integer
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+    UserHomeLayoutSummery:
+      type: object
+      properties:
+        position:
+          $ref: '#/components/schemas/Vector2'
+          description: 中心座標
+        user_facility_id:
+          $ref: '#/components/schemas/Id'
+        facility_type:
+          $ref: '#/components/schemas/FacilityType'
+        facility_level:
+          type: integer
+          description: 施設のレベル
+      required:
+        - position
+        - user_facility_id
+        - facility_type
+        - facility_level
+    UserHome:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 〇〇村...?
+        level:
+          type: integer
+          description: ユーザーホームのレベル
+        master:
+          $ref: '#/components/schemas/UserHomeMaster'
+        facilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserHomeLayoutSummery'
+      required:
+        - name
+        - level
+        - master
+        - facilities
+    UserHomeFacility:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        last_received_at:
+          $ref: '#/components/schemas/ExecuteAt'
+        level:
+          type: integer
+          description: グレード的な意味でのlevel
+        facility_type:
+          $ref: '#/components/schemas/FacilityType'
+      required:
+        - id
+        - last_received_at
+        - level
+        - facility_type
+    GetFacilitiesRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserHomeFacility'
+        pager:
+          $ref: '#/components/schemas/Pager'
+      required:
+        - items
+        - pager
+  responses:
+    DefaultError:
+      description: 例外エラーです
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorRes'
+  headers:
+    x-server-time:
+      schema:
+        type: integer
+        example: 1550215992
+      description: サーバーの時間を Unix timestamp (※常にUTC) で返却される
+  parameters:
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        example: 1
+    per_page:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        example: 10
+    param_id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 4803839602528529
+    event_type:
+      name: event_type
+      in: query
+      schema:
+        type: integer
+      description: 詳細は models/event.yaml にある...(はず)
+    guild_id:
+      name: guild_id
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 900719925474099
+    user_id:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 600479950316066
+    event_id:
+      name: event_id
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 1200959900632132
+  requestBodies:
+    EmptyBody:
+      description: 空のリクエストボディー
+      content: {}

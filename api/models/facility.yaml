@@ -1,0 +1,53 @@
+openapi: 3.0.2
+info: 
+paths: 
+
+components:
+  schemas:
+    GetFacilityMasterRes:
+      type: object
+      properties:
+        item:
+          $ref: ./facility.yaml#/components/schemas/FacilityMaster
+      required:
+        - item
+
+    FacilityMaster:
+      type: object
+      properties:
+        id: 
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        scale:
+          $ref: ../utils/default.yaml#/components/schemas/Vector2
+        level:
+          type: integer
+          description: グレード的な意味でのレベル
+        facility_type:
+          type: integer
+          description: 増えるアイテムの種類
+        upgrade_costs: 
+          type: array
+          items: 
+            $ref: ../utils/default.yaml#/components/schemas/Resource
+          description: アップグレードに必要なアイテム群
+        previous_id:
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        next_id:
+          $ref: ../utils/default.yaml#/components/schemas/Id
+      required:
+        - scale
+        - level
+        - facility_type
+        - upgrade_costs
+        - previous_id
+        - next_id
+
+    FacilityType:
+      type: integer
+      enum:
+        - 0 # 未定義
+        - 1 # 鉱山(金) 購入等に利用できる
+        - 2 # 井戸(水) バトル時に消費する 足らない場合バトルに参加出来ない 貯蔵庫って考えはいる...? 無限加算でいいんじゃないかねぇ...?
+        - 3 # 畑(食料) バトル時に消費する 足らない場合バトルに参加出来ない 貯蔵庫って考えはいる...? 無限加算でいいんじゃないかねぇ...?
+        - 4 # エリクサー なんかこれでガチャでも引かせようか... キャラガチャさせよう
+

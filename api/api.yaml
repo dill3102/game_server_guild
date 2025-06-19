@@ -1,0 +1,129 @@
+openapi: "3.0.0"
+info:
+  version: "0.0.1"
+  title: "Own World System API"
+  license:
+    name: "License"
+    url: "http://example.com"
+servers:
+  - url: http://localhost:8081/
+
+tags:
+  - name: Me
+    description: リクエストを行ったユーザー自身に対する操作群
+  - name: Auth
+    description: 認証に関するAPI群
+  - name: Friend
+    description: フレンド登録に関するAPI
+  - name: Message
+    description: ユーザー間, 運営からのメッセージに関するもの
+  - name: Event
+    description: イベント情報
+  - name: Guild
+    description: ギルドに関するもの
+  - name: Guild Fund
+    description: ギルドの資金に関するもの
+  - name: Guild Battle
+    description: ギルド間抗争に関するもの
+  - name: Guild Event Matting
+    description: ギルド間抗争のマッチングに関するもの
+  - name: Character
+    description: キャラクターに関するもの
+  - name: User Home
+    description: 施設に関するもの
+
+paths:
+  /v1/me:
+    $ref: ./methods/user.yaml#/Me
+  /v1/login:
+    $ref: ./methods/auth.yaml#/Auth
+  
+  /v1/friends:
+    $ref: ./methods/friend.yaml#/Friends
+  /v1/friend/{id}:
+    $ref: ./methods/friend.yaml#/Friend
+  /v1/friend/requests:
+    $ref: ./methods/friend.yaml#/FriendshipRequests
+  /v1/friend/requests/{id}:
+    $ref: ./methods/friend.yaml#/FriendshipRequest
+
+  /v1/message/room:
+    $ref: ./methods/message.yaml#/MessageRooms
+  /v1/message/room/{id}:
+    $ref: ./methods/message.yaml#/MessageRoom
+  /v1/message/room/{id}/chats:
+    $ref: ./methods/message.yaml#/MessageRoomChats
+  /v1/message/room/{id}/chat/fix:
+    $ref: ./methods/message.yaml#/MessageRoomChat
+
+  /v1/events:
+    $ref: ./methods/event.yaml#/EventSummeryList
+  /v1/events/{id}:
+    $ref: ./methods/event.yaml#/EventDetail
+
+  /v1/guilds:
+    $ref: ./methods/guild.yaml#/Guilds
+  /v1/guild/{guild_id}:
+    $ref: ./methods/guild.yaml#/Guild
+  /v1/guild/{guild_id}/join:
+    $ref: ./methods/guild.yaml#/GuildJoin
+  /v1/guild/{guild_id}/exit:
+    $ref: ./methods/guild.yaml#/GuildExit
+    
+  /v1/guild/{guild_id}/leader:
+    $ref: ./methods/guild.yaml#/GuildLeader
+  /v1/guild/{guild_id}/leader/info:
+    $ref: ./methods/guild.yaml#/GuildLeaderGuildInfo
+  /v1/guild/{guild_id}/leader/join:
+    $ref: ./methods/guild.yaml#/GuildLeaderJoin
+  /v1/guild/{guild_id}/leader/members/{user_id}:
+    $ref: ./methods/guild.yaml#/GuildLeaderMember
+  /v1/guild/{guild_id}/leader/upgrade:
+    $ref: ./methods/guild.yaml#/GuildLeaderUpgrade
+  
+  /v1/guild/{guild_id}/funds:
+    $ref: ./methods/guild_fund.yaml#/GuildFund
+  /v1/guild/{guild_id}/funds/logs:
+    $ref: ./methods/guild_fund.yaml#/GuildFundLogs
+  /v1/guild/{guild_id}/funds/logs/{id}:
+    $ref: ./methods/guild_fund.yaml#/GuildFundLog
+
+
+  /v1/guild/battle/events:
+    $ref: ./methods/guild_battle.yaml#/GuildBattleEventSummeryResults
+  /v1/guild/battle/event/{event_id}/result:
+    $ref: ./methods/guild_battle.yaml#/GuildBattleEventDetails
+  /v1/guild/battle/event/{event_id}/leader:
+    $ref: ./methods/guild_battle.yaml#/GuildBattleEventEntry
+  /v1/guild/battle/event/{event_id}/register:
+    $ref: ./methods/guild_battle.yaml#/GuildBattleCharacterRegister
+
+  /v1/guild/battle/event/{event_id}/mattings:
+    $ref: ./methods/guild_battle.yaml#/GuildBattleEventMattings
+  /v1/guild/battle/event/{event_id}/mattings/{id}:
+    $ref: ./methods/guild_battle.yaml#/GuildBattleEventMattingDetails
+  
+  /v1/characters:
+    $ref: ./methods/character.yaml#/CharacterSummeryList
+  /v1/characters/{id}:
+    $ref: ./methods/character.yaml#/CharacterDetails
+  /v1/characters/{id}/evolve/tree:
+    $ref: ./methods/character.yaml#/CharacterEvolveTree
+
+  
+  /v1/user/{user_id}/characters:
+    $ref: ./methods/character.yaml#/UserCharacterSummeryList
+  /v1/user/{user_id}/character/{id}:
+    $ref: ./methods/character.yaml#/UserCharacterDetails
+  
+  /v1/user/{user_id}/character/{id}/experience:
+    $ref: ./methods/character.yaml#/UserCharacterExperience
+  /v1/user/{user_id}/character/{id}/evolve:
+    $ref: ./methods/character.yaml#/UserCharacterEvolve
+
+  /v1/user/{user_id}/home:
+    $ref: ./methods/user_home.yaml#/Home
+  /v1/user/{user_id}/home/facility:
+    $ref: ./methods/user_home.yaml#/UserFacilities
+  /v1/user/{user_id}/home/facility/{id}:
+    $ref: ./methods/user_home.yaml#/UserFacility

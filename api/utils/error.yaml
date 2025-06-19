@@ -1,0 +1,27 @@
+openapi: 3.0.2
+info:
+paths:
+
+components:
+  responses:
+    DefaultError:
+      description: 例外エラーです
+      content:
+        application/json:
+          schema:
+             $ref: "#/components/schemas/ErrorRes"
+
+  schemas:
+    ErrorRes:
+      type: object
+      properties:
+        code:
+          type: integer
+          enum:
+            - 500
+        message: 
+          type: string
+          description: Internal Server Error
+      required:
+        - code
+        - message

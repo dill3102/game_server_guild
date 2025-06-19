@@ -1,0 +1,96 @@
+openapi: 3.0.2
+info: 
+paths: 
+
+components:
+  schemas:
+    GetFriendsRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: ./friend.yaml#/components/schemas/Friend
+        pager:
+          $ref: ../utils/pager.yaml#/components/schemas/Pager
+      required:
+        - items
+    GetFriendRes:
+      type: object
+      properties:
+        item:
+          $ref: ./friend.yaml#/components/schemas/Friend
+      required:
+        - item
+
+    GetFriendshipRequestsRes:
+      type: object
+      properties:
+        requests:
+          type: array
+          items:
+            $ref: ./friend.yaml#/components/schemas/FriendshipRequest
+        pager:
+          $ref: ../utils/pager.yaml#/components/schemas/Pager
+      required:
+        - requests
+    GetFriendshipRequestDetailsRes:
+      type: object
+      properties:
+        request:
+          $ref: ./friend.yaml#/components/schemas/FriendshipRequestDetails
+      required:
+        - request
+
+    PutFriendshipRequest:
+      type: object
+      properties:
+        friendship_approve:
+          $ref: ../utils/default.yaml#/components/schemas/Approve
+
+    Friend:
+      type: object
+      properties:
+        id:
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        user:
+          $ref: ./user.yaml#/components/schemas/User
+        execute_at: 
+          $ref: ../utils/default.yaml#/components/schemas/ExecuteAt  
+
+    FriendshipRequest:
+      type: object
+      properties: 
+        id: 
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        executer_name: 
+          type: string
+          description: フレンド申請を行ったユーザー名
+          example: 山田 太郎
+        execute_at: 
+          $ref: ../utils/default.yaml#/components/schemas/ExecuteAt
+      required:
+        - id
+        - executer_name
+        - execute_at
+    
+    FriendshipRequestDetails:
+      type: object
+      properties: 
+        id: 
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        execute_user:
+          $ref: ./user.yaml#/components/schemas/User
+          description: フレンド申請を行ったユーザー
+        execute_at: 
+          $ref: ../utils/default.yaml#/components/schemas/ExecuteAt
+      required:
+        - id
+        - executer_name
+        - execute_at
+
+    FriendshipStatus:
+      type: string
+      enum: 
+        - connect
+        - remove

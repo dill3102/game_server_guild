@@ -1,0 +1,165 @@
+openapi: 3.0.2
+info:
+paths:
+
+CharacterSummeryList:
+  get:
+    tags: 
+      - Character
+    description: キャラクターマスター情報一覧取得
+    operationId: GetCharacterSummeryList
+    parameters:
+    - $ref: ../utils/pager.yaml#/components/parameters/page
+    - $ref: ../utils/pager.yaml#/components/parameters/per_page
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/character.yaml#/components/schemas/GetCharacterMasterSummeryListRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+CharacterDetails:
+  get:
+    tags: 
+      - Character
+    description: キャラクターマスター詳細情報単体取得
+    operationId: GetCharacterDetails
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/character.yaml#/components/schemas/GetCharacterDetailsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+CharacterEvolveTree:
+  get:
+    tags: 
+      - Character
+    description: キャラクターの進化ツリーを取得
+    operationId: GetCharacterEvolveTree
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/character.yaml#/components/schemas/GetCharacterEvolveTreeRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+UserCharacterSummeryList:
+  get:
+    tags: 
+      - Character
+    description: ユーザーのキャラクター情報取得
+    operationId: GetUserCharacterSummeryList
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/user_id
+    - $ref: ../utils/pager.yaml#/components/parameters/page
+    - $ref: ../utils/pager.yaml#/components/parameters/per_page
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/character.yaml#/components/schemas/GetUserCharacterSummeryListRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+UserCharacterDetails:
+  get:
+    tags: 
+      - Character
+    description: ユーザーのキャラクター詳細情報単体取得
+    operationId: GetUserCharacterDetails
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/user_id
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/character.yaml#/components/schemas/GetUserCharacterDetailsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+
+UserCharacterExperience:
+  post:
+    tags: 
+      - Character
+    description: キャラクターの経験値加算
+    operationId: PostCharacterExperience
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/user_id
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    requestBody:
+      $ref: ../utils/default.yaml#/components/requestBodies/EmptyBody
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+
+UserCharacterEvolve:
+  post:
+    tags: 
+      - Character
+    description: キャラクターの進化
+    operationId: PostEvolveCharacter
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/user_id
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../models/character.yaml#/components/schemas/PostCharacterEvolveReq
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError

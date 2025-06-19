@@ -1,0 +1,101 @@
+openapi: 3.0.2
+info: 
+paths: 
+
+components:
+  schemas:
+    UserHomeMaster:
+      type: object
+      properties:
+        scale: 
+          $ref: ../utils/default.yaml#/components/schemas/Vector2
+        level: 
+          type: integer
+          description: グレード的な意味でのレベル
+      required:
+        - scale
+        - level
+
+    UserHome:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 〇〇村...?
+        level:
+          type: integer
+          description: ユーザーホームのレベル
+        master:
+          $ref: ./user_home.yaml#/components/schemas/UserHomeMaster
+        facilities: 
+          type: array
+          items:
+            $ref: ./user_home.yaml#/components/schemas/UserHomeLayoutSummery
+      required:
+        - name
+        - level
+        - master
+        - facilities
+
+    UserHomeLayoutSummery:
+      type: object
+      properties:
+        # 中心の位置はどこにするか分からんとですがクライアントとサーバーで合わせる...
+        position:
+          $ref: ../utils/default.yaml#/components/schemas/Vector2
+          description: 中心座標
+        user_facility_id:
+          # ポジションと何を置くかを設定する
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        facility_type:
+          $ref: ./facility.yaml#/components/schemas/FacilityType
+        facility_level:
+          type: integer
+          description:  施設のレベル
+      required:
+        - position
+        - user_facility_id
+        - facility_type
+        - facility_level
+    
+    
+    GetFacilitiesRes:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: ./user_home.yaml#/components/schemas/UserHomeFacility
+        pager:
+          $ref: ../utils/pager.yaml#/components/schemas/Pager
+      required:
+        - items
+        - pager
+
+    GetUserFacilityDetailsRes:
+      type: object
+      properties:
+        item:
+          $ref: ./user_home.yaml#/components/schemas/UserHomeFacility
+      required:
+        - item
+
+    UserHomeFacility:
+      type: object
+      properties:
+        id:
+          $ref: ../utils/default.yaml#/components/schemas/Id
+        last_received_at:
+          $ref: ../utils/default.yaml#/components/schemas/ExecuteAt
+        level:
+          type: integer
+          description: グレード的な意味でのlevel
+        facility_type:
+          $ref: ./facility.yaml#/components/schemas/FacilityType
+      required:
+        - id
+        - last_received_at
+        - level
+        - facility_type
+
+

@@ -1,0 +1,38 @@
+openapi: 3.0.2
+info:
+paths:
+
+components:
+  schemas:
+    Pager:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+          description: ページ数
+        per_page:
+          type: integer
+          example: 10
+          description: ページに含まれる枚数
+        count:
+          type: integer
+          example: 100
+          description: データ量
+      required:
+        - page
+        - per_page
+        - count
+  parameters: 
+    page: 
+      name: page
+      in: query
+      schema:
+        type: integer
+        example: 1
+    per_page: 
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        example: 10

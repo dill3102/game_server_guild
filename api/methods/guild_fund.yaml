@@ -1,0 +1,93 @@
+openapi: 3.0.2
+info:
+paths:
+
+GuildFund:
+  get:
+    tags: 
+      - Guild Fund
+    description: ギルド内の資金取得
+    operationId: GetGuildFund
+    parameters:
+      - $ref: ../utils/default.yaml#/components/parameters/guild_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/guild_fund.yaml#/components/schemas/GetGuildFundRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+  post:
+    tags: 
+      - Guild Fund
+    description: ギルドへの資金投資
+    operationId: PostGuildFund
+    parameters:
+      - $ref: ../utils/default.yaml#/components/parameters/guild_id
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../utils/default.yaml#/components/schemas/Resource
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+GuildFundLogs:
+  get:
+    tags: 
+      - Guild Fund
+    description: ギルドの資金収支ログ取得
+    operationId: GetGuildFundLogs
+    parameters:
+      - $ref: ../utils/default.yaml#/components/parameters/guild_id
+      - $ref: ../utils/pager.yaml#/components/parameters/page
+      - $ref: ../utils/pager.yaml#/components/parameters/per_page
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/guild_fund.yaml#/components/schemas/GetGuildFundLogsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+GuildFundLog:
+  get:
+    tags: 
+      - Guild Fund
+    description: ギルドの資金収支ログ詳細取得
+    operationId: GetGuildFundLogDetails
+    parameters:
+      - $ref: ../utils/default.yaml#/components/parameters/guild_id
+      - $ref: ../utils/default.yaml#/components/parameters/param_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/guild_fund.yaml#/components/schemas/GetGuildFundLogDetailsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError

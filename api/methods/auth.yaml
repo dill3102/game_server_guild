@@ -1,0 +1,27 @@
+openapi: 3.0.2
+info:
+paths:
+
+Auth:
+  post:
+    tags: 
+      - Auth
+    description: ユーザーログイン
+    operationId: Login
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../models/user.yaml#/components/schemas/PostCreateUserReq
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError

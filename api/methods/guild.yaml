@@ -1,0 +1,312 @@
+openapi: 3.0.2
+info:
+paths:
+
+Guilds:
+  get:
+    tags: 
+      - Guild
+    description: ギルド一覧取得
+    operationId: GetGuilds
+    parameters:
+      - $ref: ../utils/pager.yaml#/components/parameters/page
+      - $ref: ../utils/pager.yaml#/components/parameters/per_page
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/guild.yaml#/components/schemas/GetGuildsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+  post:
+    tags: 
+      - Guild
+    description: ギルド作成
+    operationId: CreateGuild
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../models/guild.yaml#/components/schemas/GuildInfoUpdateReq
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+Guild:
+  get:
+    tags:
+      - Guild
+    description: ギルド情報単体取得
+    operationId: GetGuild
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/guild_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/guild.yaml#/components/schemas/GetGuildDetailsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+  
+GuildJoin:
+  post:
+    tags: 
+      - Guild
+    description: ギルド参加リクエスト
+    operationId: JoinGuildReq
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/guild_id
+    requestBody:
+      $ref: ../utils/default.yaml#/components/requestBodies/EmptyBody
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+  delete:
+    tags: 
+      - Guild
+    description: ギルド参加リクエストの削除
+    operationId: DeleteJoinGuildReq
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/guild_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+GuildExit:
+  delete:
+    tags: 
+      - Guild
+    description: ギルドからの脱退
+    operationId: ExitGuild
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/guild_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+GuildLeader:
+  put:
+    tags: 
+      - Guild
+    description: >
+      ギルドリーダーの変更
+      ※リーダーのみが実行権限を持つ
+    operationId: ChangeGuildLeader
+    parameters:
+      - $ref: ../utils/default.yaml#/components/parameters/guild_id
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../utils/default.yaml#/components/schemas/Id
+            description: メンバー ID
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+  
+GuildLeaderGuildInfo:
+  put:
+    tags:
+      - Guild
+    description: > 
+      ギルド情報更新取得
+      ※リーダーのみが実行権限を持つ
+    operationId: PutGuild
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../models/guild.yaml#/components/schemas/GuildInfoUpdateReq
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/guild_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+  delete: 
+    tags: 
+      - Guild
+    description: > 
+      ギルドの削除
+      ※リーダーのみが実行権限を持つ
+    operationId: DeleteGuild
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/guild_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+
+GuildLeaderJoin:
+  get:
+    tags: 
+      - Guild
+    description: >
+     ギルドへの加入申請一覧取得
+     ※リーダーのみが実行権限を持つ
+    operationId: GetGuildJoinReq
+    parameters:
+      - $ref: ../utils/default.yaml#/components/parameters/guild_id
+      - $ref: ../utils/pager.yaml#/components/parameters/page
+      - $ref: ../utils/pager.yaml#/components/parameters/per_page
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/guild.yaml#/components/schemas/GetGuildJoinReqsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+  put:
+    tags: 
+      - Guild
+    description: >
+      ギルド参加リクエストの承認、キャンセル等
+      ※リーダーのみが実行権限を持つ
+    operationId: ApproveJoinGuildReq
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/guild_id
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../models/guild.yaml#/components/schemas/PutGuildJoinReqApprove
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+GuildLeaderMember:
+  delete:
+    tags: 
+      - Guild
+    description: >
+      ギルドメンバーのキック
+      ※リーダーのみが実行権限を持つ
+    operationId: KickGuildMember
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/guild_id
+    - $ref: ../utils/default.yaml#/components/parameters/user_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+GuildLeaderUpgrade:
+  post:
+    tags: 
+      - Guild
+    description: >
+      ギルドのアップグレード
+      ※リーダーのみが実行権限を持つ
+    operationId: PostGuildUpgrade
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/guild_id
+    requestBody:
+      $ref: ../utils/default.yaml#/components/requestBodies/EmptyBody
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError

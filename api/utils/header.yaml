@@ -1,0 +1,11 @@
+openapi: 3.0.2
+info:
+paths:
+
+components:
+  headers:
+    x-server-time:
+      schema:
+        type: integer
+        example: 1550215992
+      description: サーバーの時間を Unix timestamp (※常にUTC) で返却される

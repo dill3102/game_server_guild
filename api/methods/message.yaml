@@ -1,0 +1,177 @@
+openapi: 3.0.2
+info:
+paths:
+
+MessageRooms:
+  get:
+    tags: 
+      - Message
+    description: メッセージルーム一覧取得
+    operationId: GetMessageRooms
+    parameters:
+      - $ref: ../utils/pager.yaml#/components/parameters/page
+      - $ref: ../utils/pager.yaml#/components/parameters/per_page
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/message.yaml#/components/schemas/GetMessageRoomsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+  post:
+    tags: 
+      - Message
+    description: メッセージルーム作成
+    operationId: CreateMessageRoom
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../models/message.yaml#/components/schemas/MessageRoomUpdateReq
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+MessageRoom:
+  get:
+    tags:
+      - Message
+    description: メッセージルーム情報単体取得
+    operationId: GetMessageRoom
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/message.yaml#/components/schemas/GetMessageRoomRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+  delete:
+    tags: 
+      - Message
+    description: メッセージルームからの退会
+    operationId: DeleteMessageRoom
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+MessageRoomChats:
+  get:
+    tags:
+      - Message
+    description: メッセージルーム内のチャットを取得
+    operationId: GetMessageRoomChat
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/message.yaml#/components/schemas/GetMessageRoomChatsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+  post:
+    tags:
+      - Message
+    description: メッセージルームへチャットを投稿
+    operationId: PostMessageRoomChat
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../models/message.yaml#/components/schemas/PostMessageRoomChatReq
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+MessageRoomChat:
+  put:
+    tags:
+      - Message
+    description: チャット内容の編集
+    operationId: PutMessageRoomChat
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../models/message.yaml#/components/schemas/PutMessageRoomChatReq
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+  delete:
+    tags:
+      - Message
+    description: チャット削除
+    operationId: DeleteMessageRoomChat
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/param_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError

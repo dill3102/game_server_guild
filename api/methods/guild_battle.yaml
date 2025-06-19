@@ -1,0 +1,184 @@
+openapi: 3.0.2
+info:
+paths:
+
+GuildBattleEventEntry:
+  get:
+    tags: 
+      - Guild Battle
+    description: ギルドバトル 登録情報取得
+    operationId: GetGuildBattleEvents
+    parameters:    
+    - $ref: ../utils/default.yaml#/components/parameters/event_id    
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/guild_battle.yaml#/components/schemas/GuildBattleEventRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+  post:
+    tags: 
+      - Guild Battle
+    description: ギルドバトルエントリー
+    operationId: PostGuildBattleEventEntry
+    parameters:    
+    - $ref: ../utils/default.yaml#/components/parameters/event_id
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../utils/default.yaml#/components/schemas/Resource
+            description: 資金登録(追加)
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+  delete:
+    tags: 
+      - Guild Battle
+    description: > 
+      ギルドバトルエントリー解除
+      ※ キャラクター登録も削除
+      ※ 資金預かりも解除
+    operationId: DeleteGuildBattleEventEntry
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/event_id 
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+GuildBattleCharacterRegister:
+  post:
+    tags:
+      - Guild Battle
+    description: ギルドバトルにキャラクターを登録する
+    operationId: PostGuildBattleCharacterRegister
+    parameters:
+    - $ref: ../utils/default.yaml#/components/parameters/event_id 
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../models/guild_battle.yaml#/components/schemas/GuildBattleEntryCharacterReq
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../utils/default.yaml#/components/schemas/DefaultSuccess
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+GuildBattleEventSummeryResults:
+  get:
+    tags: 
+      - Guild Battle
+    description: 過去のギルドバトルの結果取得
+    operationId: GetGuildBattleResults
+    parameters:
+      - $ref: ../utils/pager.yaml#/components/parameters/page
+      - $ref: ../utils/pager.yaml#/components/parameters/per_page
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/guild_battle.yaml#/components/schemas/GuildBattleEventSummeryResultsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+GuildBattleEventDetails:
+  get:
+    tags: 
+      - Guild Battle
+    description: ギルドバトル詳細取得
+    operationId: GetGuildBattleLogDetails
+    parameters:
+      - $ref: ../utils/default.yaml#/components/parameters/event_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/guild_battle.yaml#/components/schemas/GuildBattleEventResultRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+
+GuildBattleEventMattings:
+  get:
+    tags: 
+      - Guild Event Matting
+    description: ギルドバトル詳細取得
+    operationId: GetGuildBattleEventMattings
+    parameters:
+      - $ref: ../utils/default.yaml#/components/parameters/event_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/guild_battle.yaml#/components/schemas/GuildBattleEventMattingsRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
+
+GuildBattleEventMattingDetails:
+  get:
+    tags: 
+      - Guild Event Matting
+    description: ギルドバトル詳細取得
+    operationId: GetGuildBattleEventMattingDetails
+    parameters:
+      - $ref: ../utils/default.yaml#/components/parameters/event_id
+      - $ref: ../utils/default.yaml#/components/parameters/param_id
+    responses:
+      "200":
+        description: default Success
+        headers:
+          x-server-time:
+            $ref: ../utils/header.yaml#/components/headers/x-server-time
+        content:
+          application/json:
+            schema:
+              $ref: ../models/guild_battle.yaml#/components/schemas/GuildBattleEventResultRes
+      default:
+        $ref: ../utils/error.yaml#/components/responses/DefaultError
