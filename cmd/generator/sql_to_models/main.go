@@ -59,7 +59,7 @@ func main() {
 	}
 
 	// gofmtで整形
-	exec.Command("gofmt", "-w", "./models").Run()
+	exec.Command("gofmt", "-w", "cmd/generator/sql_to_models/models").Run()
 }
 
 func extractTableName(line string) string {
@@ -87,9 +87,23 @@ func generateModelFile(table string, fields []string) {
 	}
 	defer f.Close()
 
+	haveTime := false
+	for _, field := range fields {
+		fmt.Println(table, ":", field)
+		if strings.Contains(field, "DATETIME") {
+			if !strings.Contains(field, "created_at") && !strings.Contains(field, "updated_at") {
+				haveTime = true
+				break
+			}
+		}
+	}
+
 	fmt.Fprintln(f, "package models")
 	fmt.Fprintln(f, "")
 	fmt.Fprintln(f, "import (")
+	if haveTime {
+		fmt.Fprintln(f, `  "time"`)
+	}
 	fmt.Fprintln(f, `  "gorm.io/gorm"`)
 	fmt.Fprintln(f, `  "github.com/google/uuid"`)
 	fmt.Fprintln(f, ")")
@@ -159,6 +173,8 @@ func sqlToGoType(sqlType string) string {
 		return "string"
 	case upper == "DATETIME":
 		return "time.Time"
+	case strings.Contains(upper, "TINYINT"):
+		return "bool"
 	case strings.Contains(upper, "INT"):
 		return "int"
 	case upper == "BOOLEAN" || upper == "BOOL":

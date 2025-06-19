@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS facility_masters(
     `name` VARCHAR(255) NOT NULL DEFAULT "",
     `description` TEXT NOT NULL DEFAULT "",
     `facility_type` INT NOT NULL DEFAULT 0,
-    `parent_event_id` VARCHAR(255),
+    `parent_facility_id` VARCHAR(255),
     `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
@@ -94,8 +94,8 @@ CREATE TABLE IF NOT EXISTS user_resources(
     `resource_type` INT NOT NULL,
     `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`)
-    UNIQUE `user_resource_type` (`user_id`, `resource_type`)
+    -- PRIMARY KEY (`id`)
+    -- UNIQUE `user_resource_type` (`user_id`, `resource_type`)
 );
 
 -- ユーザーの戦闘用キャラ
@@ -134,9 +134,9 @@ CREATE TABLE IF NOT EXISTS user_facility_mapping(
     `is_over` TINYINT(1) DEFAULT 0,
     `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`)
-    index (`user_id`)
-    UNIQUE user_mapping_index(`user_id`, `mapping_index`)
+    -- PRIMARY KEY (`id`)
+    -- index (`user_id`)
+    -- UNIQUE user_mapping_index(`user_id`, `mapping_index`)
 );
 
 -- --------------------------------------------------------------------------------------------------------------------------
@@ -164,15 +164,15 @@ CREATE TABLE IF NOT EXISTS guild_members(
 );
 
 -- ギルドの資産に関するもの
-CREATE TABLE IF NOT EXISTS guild_resrouces(
+CREATE TABLE IF NOT EXISTS guild_resources(
     `id` VARCHAR(255) NOT NULL UNIQUE,
     `user_id` VARCHAR(255) NOT NULL UNIQUE,
     `balance` BIGINT NOT NULL,
     `resource_type` INT NOT NULL,
     `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE `resource_balance` (`resource_type`,`balance`),
-    PRIMARY KEY (`id`)
+    -- UNIQUE `resource_balance` (`resource_type`,`balance`),
+    -- PRIMARY KEY (`id`)
 );
 
 -- ギルド収支ログ
@@ -211,9 +211,9 @@ CREATE TABLE IF NOT EXISTS guild_battle_matting_characters(
     `guild_id` VARCHAR(255) NOT NULL DEFAULT "",
     `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    unique matting_user_character_index (`matting_id`, `user_id`, `user_character_index`),
-    PRIMARY KEY (`id`),
-    INDEX (`matting_id`, `parent_user_id`)
+    -- unique matting_user_character_index (`matting_id`, `user_id`, `user_character_index`),
+    -- PRIMARY KEY (`id`),
+    -- INDEX (`matting_id`, `parent_user_id`)
 );
 
 -- ギルドバトルに設定されたリソース状況
@@ -225,6 +225,6 @@ CREATE TABLE IF NOT EXISTS guild_battle_matting_resources(
     `amount` INT NOT NULL DEFAULT 0,
     `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    INDEX (`matting_id`),
+    -- PRIMARY KEY (`id`),
+    -- INDEX (`matting_id`),
 );

@@ -2,7 +2,7 @@ package repository
 
 import (
     "gorm.io/gorm"
-    "your/module/models"
+    models "github.com/dill3102/game_server_guild/internal/domain"
 )
 
 type {ModelName}Repository interface {

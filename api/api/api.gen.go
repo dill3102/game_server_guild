@@ -17,7 +17,7 @@ import (
 	"strings"
 
 	"github.com/getkin/kin-openapi/openapi3"
-	"github.com/labstack/echo/v4"
+	"github.com/gin-gonic/gin"
 	"github.com/oapi-codegen/runtime"
 )
 
@@ -8354,1292 +8354,1742 @@ func ParsePostUserHomeFacilityUpgradeResponse(rsp *http.Response) (*PostUserHome
 type ServerInterface interface {
 
 	// (GET /v1/characters)
-	GetCharacterSummeryList(ctx echo.Context, params GetCharacterSummeryListParams) error
+	GetCharacterSummeryList(c *gin.Context, params GetCharacterSummeryListParams)
 
 	// (GET /v1/characters/{id})
-	GetCharacterDetails(ctx echo.Context, id ParamId) error
+	GetCharacterDetails(c *gin.Context, id ParamId)
 
 	// (GET /v1/characters/{id}/evolve/tree)
-	GetCharacterEvolveTree(ctx echo.Context, id ParamId) error
+	GetCharacterEvolveTree(c *gin.Context, id ParamId)
 
 	// (GET /v1/events)
-	GetEventSummeryList(ctx echo.Context, params GetEventSummeryListParams) error
+	GetEventSummeryList(c *gin.Context, params GetEventSummeryListParams)
 
 	// (GET /v1/events/{id})
-	GetEventDetails(ctx echo.Context, id ParamId) error
+	GetEventDetails(c *gin.Context, id ParamId)
 
 	// (GET /v1/friend/requests)
-	GetFriendshipRequests(ctx echo.Context, params GetFriendshipRequestsParams) error
+	GetFriendshipRequests(c *gin.Context, params GetFriendshipRequestsParams)
 
 	// (POST /v1/friend/requests)
-	PostFriendRequest(ctx echo.Context) error
+	PostFriendRequest(c *gin.Context)
 
 	// (GET /v1/friend/requests/{id})
-	GetFriendshipRequestDetails(ctx echo.Context, id ParamId) error
+	GetFriendshipRequestDetails(c *gin.Context, id ParamId)
 
 	// (PUT /v1/friend/requests/{id})
-	PutFriendshipRequest(ctx echo.Context, id ParamId) error
+	PutFriendshipRequest(c *gin.Context, id ParamId)
 
 	// (DELETE /v1/friend/{id})
-	DeleteFriend(ctx echo.Context, id ParamId) error
+	DeleteFriend(c *gin.Context, id ParamId)
 
 	// (GET /v1/friend/{id})
-	GetFriend(ctx echo.Context, id ParamId) error
+	GetFriend(c *gin.Context, id ParamId)
 
 	// (GET /v1/friends)
-	GetFriends(ctx echo.Context, params GetFriendsParams) error
+	GetFriends(c *gin.Context, params GetFriendsParams)
 
 	// (DELETE /v1/guild/battle/event/{event_id}/leader)
-	DeleteGuildBattleEventEntry(ctx echo.Context, eventId EventId) error
+	DeleteGuildBattleEventEntry(c *gin.Context, eventId EventId)
 
 	// (GET /v1/guild/battle/event/{event_id}/leader)
-	GetGuildBattleEvents(ctx echo.Context, eventId EventId) error
+	GetGuildBattleEvents(c *gin.Context, eventId EventId)
 
 	// (POST /v1/guild/battle/event/{event_id}/leader)
-	PostGuildBattleEventEntry(ctx echo.Context, eventId EventId) error
+	PostGuildBattleEventEntry(c *gin.Context, eventId EventId)
 
 	// (GET /v1/guild/battle/event/{event_id}/mattings)
-	GetGuildBattleEventMattings(ctx echo.Context, eventId EventId) error
+	GetGuildBattleEventMattings(c *gin.Context, eventId EventId)
 
 	// (GET /v1/guild/battle/event/{event_id}/mattings/{id})
-	GetGuildBattleEventMattingDetails(ctx echo.Context, eventId EventId, id ParamId) error
+	GetGuildBattleEventMattingDetails(c *gin.Context, eventId EventId, id ParamId)
 
 	// (POST /v1/guild/battle/event/{event_id}/register)
-	PostGuildBattleCharacterRegister(ctx echo.Context, eventId EventId) error
+	PostGuildBattleCharacterRegister(c *gin.Context, eventId EventId)
 
 	// (GET /v1/guild/battle/event/{event_id}/result)
-	GetGuildBattleLogDetails(ctx echo.Context, eventId EventId) error
+	GetGuildBattleLogDetails(c *gin.Context, eventId EventId)
 
 	// (GET /v1/guild/battle/events)
-	GetGuildBattleResults(ctx echo.Context, params GetGuildBattleResultsParams) error
+	GetGuildBattleResults(c *gin.Context, params GetGuildBattleResultsParams)
 
 	// (GET /v1/guild/{guild_id})
-	GetGuild(ctx echo.Context, guildId GuildId) error
+	GetGuild(c *gin.Context, guildId GuildId)
 
 	// (DELETE /v1/guild/{guild_id}/exit)
-	ExitGuild(ctx echo.Context, guildId GuildId) error
+	ExitGuild(c *gin.Context, guildId GuildId)
 
 	// (GET /v1/guild/{guild_id}/funds)
-	GetGuildFund(ctx echo.Context, guildId GuildId) error
+	GetGuildFund(c *gin.Context, guildId GuildId)
 
 	// (POST /v1/guild/{guild_id}/funds)
-	PostGuildFund(ctx echo.Context, guildId GuildId) error
+	PostGuildFund(c *gin.Context, guildId GuildId)
 
 	// (GET /v1/guild/{guild_id}/funds/logs)
-	GetGuildFundLogs(ctx echo.Context, guildId GuildId, params GetGuildFundLogsParams) error
+	GetGuildFundLogs(c *gin.Context, guildId GuildId, params GetGuildFundLogsParams)
 
 	// (GET /v1/guild/{guild_id}/funds/logs/{id})
-	GetGuildFundLogDetails(ctx echo.Context, guildId GuildId, id ParamId) error
+	GetGuildFundLogDetails(c *gin.Context, guildId GuildId, id ParamId)
 
 	// (DELETE /v1/guild/{guild_id}/join)
-	DeleteJoinGuildReq(ctx echo.Context, guildId GuildId) error
+	DeleteJoinGuildReq(c *gin.Context, guildId GuildId)
 
 	// (POST /v1/guild/{guild_id}/join)
-	JoinGuildReq(ctx echo.Context, guildId GuildId) error
+	JoinGuildReq(c *gin.Context, guildId GuildId)
 
 	// (PUT /v1/guild/{guild_id}/leader)
-	ChangeGuildLeader(ctx echo.Context, guildId GuildId) error
+	ChangeGuildLeader(c *gin.Context, guildId GuildId)
 
 	// (DELETE /v1/guild/{guild_id}/leader/info)
-	DeleteGuild(ctx echo.Context, guildId GuildId) error
+	DeleteGuild(c *gin.Context, guildId GuildId)
 
 	// (PUT /v1/guild/{guild_id}/leader/info)
-	PutGuild(ctx echo.Context, guildId GuildId) error
+	PutGuild(c *gin.Context, guildId GuildId)
 
 	// (GET /v1/guild/{guild_id}/leader/join)
-	GetGuildJoinReq(ctx echo.Context, guildId GuildId, params GetGuildJoinReqParams) error
+	GetGuildJoinReq(c *gin.Context, guildId GuildId, params GetGuildJoinReqParams)
 
 	// (PUT /v1/guild/{guild_id}/leader/join)
-	ApproveJoinGuildReq(ctx echo.Context, guildId GuildId) error
+	ApproveJoinGuildReq(c *gin.Context, guildId GuildId)
 
 	// (DELETE /v1/guild/{guild_id}/leader/members/{user_id})
-	KickGuildMember(ctx echo.Context, guildId GuildId, userId UserId) error
+	KickGuildMember(c *gin.Context, guildId GuildId, userId UserId)
 
 	// (POST /v1/guild/{guild_id}/leader/upgrade)
-	PostGuildUpgrade(ctx echo.Context, guildId GuildId) error
+	PostGuildUpgrade(c *gin.Context, guildId GuildId)
 
 	// (GET /v1/guilds)
-	GetGuilds(ctx echo.Context, params GetGuildsParams) error
+	GetGuilds(c *gin.Context, params GetGuildsParams)
 
 	// (POST /v1/guilds)
-	CreateGuild(ctx echo.Context) error
+	CreateGuild(c *gin.Context)
 
 	// (POST /v1/login)
-	Login(ctx echo.Context) error
+	Login(c *gin.Context)
 
 	// (GET /v1/me)
-	GetMe(ctx echo.Context) error
+	GetMe(c *gin.Context)
 
 	// (POST /v1/me)
-	CreateUser(ctx echo.Context) error
+	CreateUser(c *gin.Context)
 
 	// (GET /v1/message/room)
-	GetMessageRooms(ctx echo.Context, params GetMessageRoomsParams) error
+	GetMessageRooms(c *gin.Context, params GetMessageRoomsParams)
 
 	// (POST /v1/message/room)
-	CreateMessageRoom(ctx echo.Context) error
+	CreateMessageRoom(c *gin.Context)
 
 	// (DELETE /v1/message/room/{id})
-	DeleteMessageRoom(ctx echo.Context, id ParamId) error
+	DeleteMessageRoom(c *gin.Context, id ParamId)
 
 	// (GET /v1/message/room/{id})
-	GetMessageRoom(ctx echo.Context, id ParamId) error
+	GetMessageRoom(c *gin.Context, id ParamId)
 
 	// (DELETE /v1/message/room/{id}/chat/fix)
-	DeleteMessageRoomChat(ctx echo.Context, id ParamId) error
+	DeleteMessageRoomChat(c *gin.Context, id ParamId)
 
 	// (PUT /v1/message/room/{id}/chat/fix)
-	PutMessageRoomChat(ctx echo.Context, id ParamId) error
+	PutMessageRoomChat(c *gin.Context, id ParamId)
 
 	// (GET /v1/message/room/{id}/chats)
-	GetMessageRoomChat(ctx echo.Context, id ParamId) error
+	GetMessageRoomChat(c *gin.Context, id ParamId)
 
 	// (POST /v1/message/room/{id}/chats)
-	PostMessageRoomChat(ctx echo.Context, id ParamId) error
+	PostMessageRoomChat(c *gin.Context, id ParamId)
 
 	// (GET /v1/user/{user_id}/character/{id})
-	GetUserCharacterDetails(ctx echo.Context, userId UserId, id ParamId) error
+	GetUserCharacterDetails(c *gin.Context, userId UserId, id ParamId)
 
 	// (POST /v1/user/{user_id}/character/{id}/evolve)
-	PostEvolveCharacter(ctx echo.Context, userId UserId, id ParamId) error
+	PostEvolveCharacter(c *gin.Context, userId UserId, id ParamId)
 
 	// (POST /v1/user/{user_id}/character/{id}/experience)
-	PostCharacterExperience(ctx echo.Context, userId UserId, id ParamId) error
+	PostCharacterExperience(c *gin.Context, userId UserId, id ParamId)
 
 	// (GET /v1/user/{user_id}/characters)
-	GetUserCharacterSummeryList(ctx echo.Context, userId UserId, params GetUserCharacterSummeryListParams) error
+	GetUserCharacterSummeryList(c *gin.Context, userId UserId, params GetUserCharacterSummeryListParams)
 
 	// (GET /v1/user/{user_id}/home)
-	GetUserHome(ctx echo.Context, userId UserId) error
+	GetUserHome(c *gin.Context, userId UserId)
 
 	// (POST /v1/user/{user_id}/home)
-	PostUserHomeUpgrade(ctx echo.Context, userId UserId) error
+	PostUserHomeUpgrade(c *gin.Context, userId UserId)
 
 	// (GET /v1/user/{user_id}/home/facility)
-	GetUserFacilities(ctx echo.Context, userId UserId) error
+	GetUserFacilities(c *gin.Context, userId UserId)
 
 	// (POST /v1/user/{user_id}/home/facility/{id})
-	PostUserHomeFacilityUpgrade(ctx echo.Context, userId UserId, id ParamId) error
+	PostUserHomeFacilityUpgrade(c *gin.Context, userId UserId, id ParamId)
 }
 
-// ServerInterfaceWrapper converts echo contexts to parameters.
+// ServerInterfaceWrapper converts contexts to parameters.
 type ServerInterfaceWrapper struct {
-	Handler ServerInterface
+	Handler            ServerInterface
+	HandlerMiddlewares []MiddlewareFunc
+	ErrorHandler       func(*gin.Context, error, int)
 }
 
-// GetCharacterSummeryList converts echo context to params.
-func (w *ServerInterfaceWrapper) GetCharacterSummeryList(ctx echo.Context) error {
+type MiddlewareFunc func(c *gin.Context)
+
+// GetCharacterSummeryList operation middleware
+func (siw *ServerInterfaceWrapper) GetCharacterSummeryList(c *gin.Context) {
+
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetCharacterSummeryListParams
+
 	// ------------- Optional query parameter "page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "page", ctx.QueryParams(), &params.Page)
+	err = runtime.BindQueryParameter("form", true, false, "page", c.Request.URL.Query(), &params.Page)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Optional query parameter "per_page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "per_page", ctx.QueryParams(), &params.PerPage)
+	err = runtime.BindQueryParameter("form", true, false, "per_page", c.Request.URL.Query(), &params.PerPage)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter per_page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter per_page: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetCharacterSummeryList(ctx, params)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetCharacterSummeryList(c, params)
 }
 
-// GetCharacterDetails converts echo context to params.
-func (w *ServerInterfaceWrapper) GetCharacterDetails(ctx echo.Context) error {
+// GetCharacterDetails operation middleware
+func (siw *ServerInterfaceWrapper) GetCharacterDetails(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetCharacterDetails(ctx, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetCharacterDetails(c, id)
 }
 
-// GetCharacterEvolveTree converts echo context to params.
-func (w *ServerInterfaceWrapper) GetCharacterEvolveTree(ctx echo.Context) error {
+// GetCharacterEvolveTree operation middleware
+func (siw *ServerInterfaceWrapper) GetCharacterEvolveTree(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetCharacterEvolveTree(ctx, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetCharacterEvolveTree(c, id)
 }
 
-// GetEventSummeryList converts echo context to params.
-func (w *ServerInterfaceWrapper) GetEventSummeryList(ctx echo.Context) error {
+// GetEventSummeryList operation middleware
+func (siw *ServerInterfaceWrapper) GetEventSummeryList(c *gin.Context) {
+
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetEventSummeryListParams
+
 	// ------------- Optional query parameter "page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "page", ctx.QueryParams(), &params.Page)
+	err = runtime.BindQueryParameter("form", true, false, "page", c.Request.URL.Query(), &params.Page)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Optional query parameter "per_page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "per_page", ctx.QueryParams(), &params.PerPage)
+	err = runtime.BindQueryParameter("form", true, false, "per_page", c.Request.URL.Query(), &params.PerPage)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter per_page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter per_page: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Optional query parameter "event_type" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "event_type", ctx.QueryParams(), &params.EventType)
+	err = runtime.BindQueryParameter("form", true, false, "event_type", c.Request.URL.Query(), &params.EventType)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter event_type: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter event_type: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetEventSummeryList(ctx, params)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetEventSummeryList(c, params)
 }
 
-// GetEventDetails converts echo context to params.
-func (w *ServerInterfaceWrapper) GetEventDetails(ctx echo.Context) error {
+// GetEventDetails operation middleware
+func (siw *ServerInterfaceWrapper) GetEventDetails(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetEventDetails(ctx, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetEventDetails(c, id)
 }
 
-// GetFriendshipRequests converts echo context to params.
-func (w *ServerInterfaceWrapper) GetFriendshipRequests(ctx echo.Context) error {
+// GetFriendshipRequests operation middleware
+func (siw *ServerInterfaceWrapper) GetFriendshipRequests(c *gin.Context) {
+
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetFriendshipRequestsParams
+
 	// ------------- Optional query parameter "page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "page", ctx.QueryParams(), &params.Page)
+	err = runtime.BindQueryParameter("form", true, false, "page", c.Request.URL.Query(), &params.Page)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Optional query parameter "per_page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "per_page", ctx.QueryParams(), &params.PerPage)
+	err = runtime.BindQueryParameter("form", true, false, "per_page", c.Request.URL.Query(), &params.PerPage)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter per_page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter per_page: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetFriendshipRequests(ctx, params)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetFriendshipRequests(c, params)
 }
 
-// PostFriendRequest converts echo context to params.
-func (w *ServerInterfaceWrapper) PostFriendRequest(ctx echo.Context) error {
-	var err error
+// PostFriendRequest operation middleware
+func (siw *ServerInterfaceWrapper) PostFriendRequest(c *gin.Context) {
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.PostFriendRequest(ctx)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostFriendRequest(c)
 }
 
-// GetFriendshipRequestDetails converts echo context to params.
-func (w *ServerInterfaceWrapper) GetFriendshipRequestDetails(ctx echo.Context) error {
+// GetFriendshipRequestDetails operation middleware
+func (siw *ServerInterfaceWrapper) GetFriendshipRequestDetails(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetFriendshipRequestDetails(ctx, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetFriendshipRequestDetails(c, id)
 }
 
-// PutFriendshipRequest converts echo context to params.
-func (w *ServerInterfaceWrapper) PutFriendshipRequest(ctx echo.Context) error {
+// PutFriendshipRequest operation middleware
+func (siw *ServerInterfaceWrapper) PutFriendshipRequest(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.PutFriendshipRequest(ctx, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutFriendshipRequest(c, id)
 }
 
-// DeleteFriend converts echo context to params.
-func (w *ServerInterfaceWrapper) DeleteFriend(ctx echo.Context) error {
+// DeleteFriend operation middleware
+func (siw *ServerInterfaceWrapper) DeleteFriend(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.DeleteFriend(ctx, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteFriend(c, id)
 }
 
-// GetFriend converts echo context to params.
-func (w *ServerInterfaceWrapper) GetFriend(ctx echo.Context) error {
+// GetFriend operation middleware
+func (siw *ServerInterfaceWrapper) GetFriend(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetFriend(ctx, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetFriend(c, id)
 }
 
-// GetFriends converts echo context to params.
-func (w *ServerInterfaceWrapper) GetFriends(ctx echo.Context) error {
+// GetFriends operation middleware
+func (siw *ServerInterfaceWrapper) GetFriends(c *gin.Context) {
+
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetFriendsParams
+
 	// ------------- Optional query parameter "page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "page", ctx.QueryParams(), &params.Page)
+	err = runtime.BindQueryParameter("form", true, false, "page", c.Request.URL.Query(), &params.Page)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Optional query parameter "per_page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "per_page", ctx.QueryParams(), &params.PerPage)
+	err = runtime.BindQueryParameter("form", true, false, "per_page", c.Request.URL.Query(), &params.PerPage)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter per_page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter per_page: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetFriends(ctx, params)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetFriends(c, params)
 }
 
-// DeleteGuildBattleEventEntry converts echo context to params.
-func (w *ServerInterfaceWrapper) DeleteGuildBattleEventEntry(ctx echo.Context) error {
+// DeleteGuildBattleEventEntry operation middleware
+func (siw *ServerInterfaceWrapper) DeleteGuildBattleEventEntry(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "event_id" -------------
 	var eventId EventId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "event_id", ctx.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "event_id", c.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter event_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter event_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.DeleteGuildBattleEventEntry(ctx, eventId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteGuildBattleEventEntry(c, eventId)
 }
 
-// GetGuildBattleEvents converts echo context to params.
-func (w *ServerInterfaceWrapper) GetGuildBattleEvents(ctx echo.Context) error {
+// GetGuildBattleEvents operation middleware
+func (siw *ServerInterfaceWrapper) GetGuildBattleEvents(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "event_id" -------------
 	var eventId EventId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "event_id", ctx.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "event_id", c.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter event_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter event_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetGuildBattleEvents(ctx, eventId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetGuildBattleEvents(c, eventId)
 }
 
-// PostGuildBattleEventEntry converts echo context to params.
-func (w *ServerInterfaceWrapper) PostGuildBattleEventEntry(ctx echo.Context) error {
+// PostGuildBattleEventEntry operation middleware
+func (siw *ServerInterfaceWrapper) PostGuildBattleEventEntry(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "event_id" -------------
 	var eventId EventId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "event_id", ctx.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "event_id", c.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter event_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter event_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.PostGuildBattleEventEntry(ctx, eventId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostGuildBattleEventEntry(c, eventId)
 }
 
-// GetGuildBattleEventMattings converts echo context to params.
-func (w *ServerInterfaceWrapper) GetGuildBattleEventMattings(ctx echo.Context) error {
+// GetGuildBattleEventMattings operation middleware
+func (siw *ServerInterfaceWrapper) GetGuildBattleEventMattings(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "event_id" -------------
 	var eventId EventId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "event_id", ctx.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "event_id", c.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter event_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter event_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetGuildBattleEventMattings(ctx, eventId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetGuildBattleEventMattings(c, eventId)
 }
 
-// GetGuildBattleEventMattingDetails converts echo context to params.
-func (w *ServerInterfaceWrapper) GetGuildBattleEventMattingDetails(ctx echo.Context) error {
+// GetGuildBattleEventMattingDetails operation middleware
+func (siw *ServerInterfaceWrapper) GetGuildBattleEventMattingDetails(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "event_id" -------------
 	var eventId EventId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "event_id", ctx.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "event_id", c.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter event_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter event_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetGuildBattleEventMattingDetails(ctx, eventId, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetGuildBattleEventMattingDetails(c, eventId, id)
 }
 
-// PostGuildBattleCharacterRegister converts echo context to params.
-func (w *ServerInterfaceWrapper) PostGuildBattleCharacterRegister(ctx echo.Context) error {
+// PostGuildBattleCharacterRegister operation middleware
+func (siw *ServerInterfaceWrapper) PostGuildBattleCharacterRegister(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "event_id" -------------
 	var eventId EventId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "event_id", ctx.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "event_id", c.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter event_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter event_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.PostGuildBattleCharacterRegister(ctx, eventId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostGuildBattleCharacterRegister(c, eventId)
 }
 
-// GetGuildBattleLogDetails converts echo context to params.
-func (w *ServerInterfaceWrapper) GetGuildBattleLogDetails(ctx echo.Context) error {
+// GetGuildBattleLogDetails operation middleware
+func (siw *ServerInterfaceWrapper) GetGuildBattleLogDetails(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "event_id" -------------
 	var eventId EventId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "event_id", ctx.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "event_id", c.Param("event_id"), &eventId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter event_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter event_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetGuildBattleLogDetails(ctx, eventId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetGuildBattleLogDetails(c, eventId)
 }
 
-// GetGuildBattleResults converts echo context to params.
-func (w *ServerInterfaceWrapper) GetGuildBattleResults(ctx echo.Context) error {
+// GetGuildBattleResults operation middleware
+func (siw *ServerInterfaceWrapper) GetGuildBattleResults(c *gin.Context) {
+
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetGuildBattleResultsParams
+
 	// ------------- Optional query parameter "page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "page", ctx.QueryParams(), &params.Page)
+	err = runtime.BindQueryParameter("form", true, false, "page", c.Request.URL.Query(), &params.Page)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Optional query parameter "per_page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "per_page", ctx.QueryParams(), &params.PerPage)
+	err = runtime.BindQueryParameter("form", true, false, "per_page", c.Request.URL.Query(), &params.PerPage)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter per_page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter per_page: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetGuildBattleResults(ctx, params)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetGuildBattleResults(c, params)
 }
 
-// GetGuild converts echo context to params.
-func (w *ServerInterfaceWrapper) GetGuild(ctx echo.Context) error {
+// GetGuild operation middleware
+func (siw *ServerInterfaceWrapper) GetGuild(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetGuild(ctx, guildId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetGuild(c, guildId)
 }
 
-// ExitGuild converts echo context to params.
-func (w *ServerInterfaceWrapper) ExitGuild(ctx echo.Context) error {
+// ExitGuild operation middleware
+func (siw *ServerInterfaceWrapper) ExitGuild(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.ExitGuild(ctx, guildId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.ExitGuild(c, guildId)
 }
 
-// GetGuildFund converts echo context to params.
-func (w *ServerInterfaceWrapper) GetGuildFund(ctx echo.Context) error {
+// GetGuildFund operation middleware
+func (siw *ServerInterfaceWrapper) GetGuildFund(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetGuildFund(ctx, guildId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetGuildFund(c, guildId)
 }
 
-// PostGuildFund converts echo context to params.
-func (w *ServerInterfaceWrapper) PostGuildFund(ctx echo.Context) error {
+// PostGuildFund operation middleware
+func (siw *ServerInterfaceWrapper) PostGuildFund(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.PostGuildFund(ctx, guildId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostGuildFund(c, guildId)
 }
 
-// GetGuildFundLogs converts echo context to params.
-func (w *ServerInterfaceWrapper) GetGuildFundLogs(ctx echo.Context) error {
+// GetGuildFundLogs operation middleware
+func (siw *ServerInterfaceWrapper) GetGuildFundLogs(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetGuildFundLogsParams
+
 	// ------------- Optional query parameter "page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "page", ctx.QueryParams(), &params.Page)
+	err = runtime.BindQueryParameter("form", true, false, "page", c.Request.URL.Query(), &params.Page)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Optional query parameter "per_page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "per_page", ctx.QueryParams(), &params.PerPage)
+	err = runtime.BindQueryParameter("form", true, false, "per_page", c.Request.URL.Query(), &params.PerPage)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter per_page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter per_page: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetGuildFundLogs(ctx, guildId, params)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetGuildFundLogs(c, guildId, params)
 }
 
-// GetGuildFundLogDetails converts echo context to params.
-func (w *ServerInterfaceWrapper) GetGuildFundLogDetails(ctx echo.Context) error {
+// GetGuildFundLogDetails operation middleware
+func (siw *ServerInterfaceWrapper) GetGuildFundLogDetails(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetGuildFundLogDetails(ctx, guildId, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetGuildFundLogDetails(c, guildId, id)
 }
 
-// DeleteJoinGuildReq converts echo context to params.
-func (w *ServerInterfaceWrapper) DeleteJoinGuildReq(ctx echo.Context) error {
+// DeleteJoinGuildReq operation middleware
+func (siw *ServerInterfaceWrapper) DeleteJoinGuildReq(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.DeleteJoinGuildReq(ctx, guildId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteJoinGuildReq(c, guildId)
 }
 
-// JoinGuildReq converts echo context to params.
-func (w *ServerInterfaceWrapper) JoinGuildReq(ctx echo.Context) error {
+// JoinGuildReq operation middleware
+func (siw *ServerInterfaceWrapper) JoinGuildReq(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.JoinGuildReq(ctx, guildId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.JoinGuildReq(c, guildId)
 }
 
-// ChangeGuildLeader converts echo context to params.
-func (w *ServerInterfaceWrapper) ChangeGuildLeader(ctx echo.Context) error {
+// ChangeGuildLeader operation middleware
+func (siw *ServerInterfaceWrapper) ChangeGuildLeader(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.ChangeGuildLeader(ctx, guildId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.ChangeGuildLeader(c, guildId)
 }
 
-// DeleteGuild converts echo context to params.
-func (w *ServerInterfaceWrapper) DeleteGuild(ctx echo.Context) error {
+// DeleteGuild operation middleware
+func (siw *ServerInterfaceWrapper) DeleteGuild(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.DeleteGuild(ctx, guildId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteGuild(c, guildId)
 }
 
-// PutGuild converts echo context to params.
-func (w *ServerInterfaceWrapper) PutGuild(ctx echo.Context) error {
+// PutGuild operation middleware
+func (siw *ServerInterfaceWrapper) PutGuild(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.PutGuild(ctx, guildId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutGuild(c, guildId)
 }
 
-// GetGuildJoinReq converts echo context to params.
-func (w *ServerInterfaceWrapper) GetGuildJoinReq(ctx echo.Context) error {
+// GetGuildJoinReq operation middleware
+func (siw *ServerInterfaceWrapper) GetGuildJoinReq(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetGuildJoinReqParams
+
 	// ------------- Optional query parameter "page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "page", ctx.QueryParams(), &params.Page)
+	err = runtime.BindQueryParameter("form", true, false, "page", c.Request.URL.Query(), &params.Page)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Optional query parameter "per_page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "per_page", ctx.QueryParams(), &params.PerPage)
+	err = runtime.BindQueryParameter("form", true, false, "per_page", c.Request.URL.Query(), &params.PerPage)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter per_page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter per_page: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetGuildJoinReq(ctx, guildId, params)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetGuildJoinReq(c, guildId, params)
 }
 
-// ApproveJoinGuildReq converts echo context to params.
-func (w *ServerInterfaceWrapper) ApproveJoinGuildReq(ctx echo.Context) error {
+// ApproveJoinGuildReq operation middleware
+func (siw *ServerInterfaceWrapper) ApproveJoinGuildReq(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.ApproveJoinGuildReq(ctx, guildId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.ApproveJoinGuildReq(c, guildId)
 }
 
-// KickGuildMember converts echo context to params.
-func (w *ServerInterfaceWrapper) KickGuildMember(ctx echo.Context) error {
+// KickGuildMember operation middleware
+func (siw *ServerInterfaceWrapper) KickGuildMember(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Path parameter "user_id" -------------
 	var userId UserId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "user_id", ctx.Param("user_id"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "user_id", c.Param("user_id"), &userId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter user_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter user_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.KickGuildMember(ctx, guildId, userId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.KickGuildMember(c, guildId, userId)
 }
 
-// PostGuildUpgrade converts echo context to params.
-func (w *ServerInterfaceWrapper) PostGuildUpgrade(ctx echo.Context) error {
+// PostGuildUpgrade operation middleware
+func (siw *ServerInterfaceWrapper) PostGuildUpgrade(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "guild_id" -------------
 	var guildId GuildId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", ctx.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "guild_id", c.Param("guild_id"), &guildId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter guild_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter guild_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.PostGuildUpgrade(ctx, guildId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostGuildUpgrade(c, guildId)
 }
 
-// GetGuilds converts echo context to params.
-func (w *ServerInterfaceWrapper) GetGuilds(ctx echo.Context) error {
+// GetGuilds operation middleware
+func (siw *ServerInterfaceWrapper) GetGuilds(c *gin.Context) {
+
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetGuildsParams
+
 	// ------------- Optional query parameter "page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "page", ctx.QueryParams(), &params.Page)
+	err = runtime.BindQueryParameter("form", true, false, "page", c.Request.URL.Query(), &params.Page)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Optional query parameter "per_page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "per_page", ctx.QueryParams(), &params.PerPage)
+	err = runtime.BindQueryParameter("form", true, false, "per_page", c.Request.URL.Query(), &params.PerPage)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter per_page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter per_page: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetGuilds(ctx, params)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetGuilds(c, params)
 }
 
-// CreateGuild converts echo context to params.
-func (w *ServerInterfaceWrapper) CreateGuild(ctx echo.Context) error {
-	var err error
+// CreateGuild operation middleware
+func (siw *ServerInterfaceWrapper) CreateGuild(c *gin.Context) {
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.CreateGuild(ctx)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.CreateGuild(c)
 }
 
-// Login converts echo context to params.
-func (w *ServerInterfaceWrapper) Login(ctx echo.Context) error {
-	var err error
+// Login operation middleware
+func (siw *ServerInterfaceWrapper) Login(c *gin.Context) {
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.Login(ctx)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.Login(c)
 }
 
-// GetMe converts echo context to params.
-func (w *ServerInterfaceWrapper) GetMe(ctx echo.Context) error {
-	var err error
+// GetMe operation middleware
+func (siw *ServerInterfaceWrapper) GetMe(c *gin.Context) {
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetMe(ctx)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetMe(c)
 }
 
-// CreateUser converts echo context to params.
-func (w *ServerInterfaceWrapper) CreateUser(ctx echo.Context) error {
-	var err error
+// CreateUser operation middleware
+func (siw *ServerInterfaceWrapper) CreateUser(c *gin.Context) {
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.CreateUser(ctx)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.CreateUser(c)
 }
 
-// GetMessageRooms converts echo context to params.
-func (w *ServerInterfaceWrapper) GetMessageRooms(ctx echo.Context) error {
+// GetMessageRooms operation middleware
+func (siw *ServerInterfaceWrapper) GetMessageRooms(c *gin.Context) {
+
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetMessageRoomsParams
+
 	// ------------- Optional query parameter "page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "page", ctx.QueryParams(), &params.Page)
+	err = runtime.BindQueryParameter("form", true, false, "page", c.Request.URL.Query(), &params.Page)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Optional query parameter "per_page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "per_page", ctx.QueryParams(), &params.PerPage)
+	err = runtime.BindQueryParameter("form", true, false, "per_page", c.Request.URL.Query(), &params.PerPage)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter per_page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter per_page: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetMessageRooms(ctx, params)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetMessageRooms(c, params)
 }
 
-// CreateMessageRoom converts echo context to params.
-func (w *ServerInterfaceWrapper) CreateMessageRoom(ctx echo.Context) error {
-	var err error
+// CreateMessageRoom operation middleware
+func (siw *ServerInterfaceWrapper) CreateMessageRoom(c *gin.Context) {
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.CreateMessageRoom(ctx)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.CreateMessageRoom(c)
 }
 
-// DeleteMessageRoom converts echo context to params.
-func (w *ServerInterfaceWrapper) DeleteMessageRoom(ctx echo.Context) error {
+// DeleteMessageRoom operation middleware
+func (siw *ServerInterfaceWrapper) DeleteMessageRoom(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.DeleteMessageRoom(ctx, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteMessageRoom(c, id)
 }
 
-// GetMessageRoom converts echo context to params.
-func (w *ServerInterfaceWrapper) GetMessageRoom(ctx echo.Context) error {
+// GetMessageRoom operation middleware
+func (siw *ServerInterfaceWrapper) GetMessageRoom(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetMessageRoom(ctx, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetMessageRoom(c, id)
 }
 
-// DeleteMessageRoomChat converts echo context to params.
-func (w *ServerInterfaceWrapper) DeleteMessageRoomChat(ctx echo.Context) error {
+// DeleteMessageRoomChat operation middleware
+func (siw *ServerInterfaceWrapper) DeleteMessageRoomChat(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.DeleteMessageRoomChat(ctx, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteMessageRoomChat(c, id)
 }
 
-// PutMessageRoomChat converts echo context to params.
-func (w *ServerInterfaceWrapper) PutMessageRoomChat(ctx echo.Context) error {
+// PutMessageRoomChat operation middleware
+func (siw *ServerInterfaceWrapper) PutMessageRoomChat(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.PutMessageRoomChat(ctx, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutMessageRoomChat(c, id)
 }
 
-// GetMessageRoomChat converts echo context to params.
-func (w *ServerInterfaceWrapper) GetMessageRoomChat(ctx echo.Context) error {
+// GetMessageRoomChat operation middleware
+func (siw *ServerInterfaceWrapper) GetMessageRoomChat(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetMessageRoomChat(ctx, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetMessageRoomChat(c, id)
 }
 
-// PostMessageRoomChat converts echo context to params.
-func (w *ServerInterfaceWrapper) PostMessageRoomChat(ctx echo.Context) error {
+// PostMessageRoomChat operation middleware
+func (siw *ServerInterfaceWrapper) PostMessageRoomChat(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.PostMessageRoomChat(ctx, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostMessageRoomChat(c, id)
 }
 
-// GetUserCharacterDetails converts echo context to params.
-func (w *ServerInterfaceWrapper) GetUserCharacterDetails(ctx echo.Context) error {
+// GetUserCharacterDetails operation middleware
+func (siw *ServerInterfaceWrapper) GetUserCharacterDetails(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "user_id" -------------
 	var userId UserId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "user_id", ctx.Param("user_id"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "user_id", c.Param("user_id"), &userId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter user_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter user_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetUserCharacterDetails(ctx, userId, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetUserCharacterDetails(c, userId, id)
 }
 
-// PostEvolveCharacter converts echo context to params.
-func (w *ServerInterfaceWrapper) PostEvolveCharacter(ctx echo.Context) error {
+// PostEvolveCharacter operation middleware
+func (siw *ServerInterfaceWrapper) PostEvolveCharacter(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "user_id" -------------
 	var userId UserId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "user_id", ctx.Param("user_id"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "user_id", c.Param("user_id"), &userId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter user_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter user_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.PostEvolveCharacter(ctx, userId, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostEvolveCharacter(c, userId, id)
 }
 
-// PostCharacterExperience converts echo context to params.
-func (w *ServerInterfaceWrapper) PostCharacterExperience(ctx echo.Context) error {
+// PostCharacterExperience operation middleware
+func (siw *ServerInterfaceWrapper) PostCharacterExperience(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "user_id" -------------
 	var userId UserId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "user_id", ctx.Param("user_id"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "user_id", c.Param("user_id"), &userId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter user_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter user_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.PostCharacterExperience(ctx, userId, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostCharacterExperience(c, userId, id)
 }
 
-// GetUserCharacterSummeryList converts echo context to params.
-func (w *ServerInterfaceWrapper) GetUserCharacterSummeryList(ctx echo.Context) error {
+// GetUserCharacterSummeryList operation middleware
+func (siw *ServerInterfaceWrapper) GetUserCharacterSummeryList(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "user_id" -------------
 	var userId UserId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "user_id", ctx.Param("user_id"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "user_id", c.Param("user_id"), &userId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter user_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter user_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetUserCharacterSummeryListParams
+
 	// ------------- Optional query parameter "page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "page", ctx.QueryParams(), &params.Page)
+	err = runtime.BindQueryParameter("form", true, false, "page", c.Request.URL.Query(), &params.Page)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Optional query parameter "per_page" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "per_page", ctx.QueryParams(), &params.PerPage)
+	err = runtime.BindQueryParameter("form", true, false, "per_page", c.Request.URL.Query(), &params.PerPage)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter per_page: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter per_page: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetUserCharacterSummeryList(ctx, userId, params)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetUserCharacterSummeryList(c, userId, params)
 }
 
-// GetUserHome converts echo context to params.
-func (w *ServerInterfaceWrapper) GetUserHome(ctx echo.Context) error {
+// GetUserHome operation middleware
+func (siw *ServerInterfaceWrapper) GetUserHome(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "user_id" -------------
 	var userId UserId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "user_id", ctx.Param("user_id"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "user_id", c.Param("user_id"), &userId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter user_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter user_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetUserHome(ctx, userId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetUserHome(c, userId)
 }
 
-// PostUserHomeUpgrade converts echo context to params.
-func (w *ServerInterfaceWrapper) PostUserHomeUpgrade(ctx echo.Context) error {
+// PostUserHomeUpgrade operation middleware
+func (siw *ServerInterfaceWrapper) PostUserHomeUpgrade(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "user_id" -------------
 	var userId UserId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "user_id", ctx.Param("user_id"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "user_id", c.Param("user_id"), &userId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter user_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter user_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.PostUserHomeUpgrade(ctx, userId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostUserHomeUpgrade(c, userId)
 }
 
-// GetUserFacilities converts echo context to params.
-func (w *ServerInterfaceWrapper) GetUserFacilities(ctx echo.Context) error {
+// GetUserFacilities operation middleware
+func (siw *ServerInterfaceWrapper) GetUserFacilities(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "user_id" -------------
 	var userId UserId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "user_id", ctx.Param("user_id"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "user_id", c.Param("user_id"), &userId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter user_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter user_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.GetUserFacilities(ctx, userId)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetUserFacilities(c, userId)
 }
 
-// PostUserHomeFacilityUpgrade converts echo context to params.
-func (w *ServerInterfaceWrapper) PostUserHomeFacilityUpgrade(ctx echo.Context) error {
+// PostUserHomeFacilityUpgrade operation middleware
+func (siw *ServerInterfaceWrapper) PostUserHomeFacilityUpgrade(c *gin.Context) {
+
 	var err error
+
 	// ------------- Path parameter "user_id" -------------
 	var userId UserId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "user_id", ctx.Param("user_id"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "user_id", c.Param("user_id"), &userId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter user_id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter user_id: %w", err), http.StatusBadRequest)
+		return
 	}
 
 	// ------------- Path parameter "id" -------------
 	var id ParamId
 
-	err = runtime.BindStyledParameterWithOptions("simple", "id", ctx.Param("id"), &id, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter id: %s", err))
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
 	}
 
-	// Invoke the callback with all the unmarshaled arguments
-	err = w.Handler.PostUserHomeFacilityUpgrade(ctx, userId, id)
-	return err
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostUserHomeFacilityUpgrade(c, userId, id)
 }
 
-// This is a simple interface which specifies echo.Route addition functions which
-// are present on both echo.Echo and echo.Group, since we want to allow using
-// either of them for path registration
-type EchoRouter interface {
-	CONNECT(path string, h echo.HandlerFunc, m ...echo.MiddlewareFunc) *echo.Route
-	DELETE(path string, h echo.HandlerFunc, m ...echo.MiddlewareFunc) *echo.Route
-	GET(path string, h echo.HandlerFunc, m ...echo.MiddlewareFunc) *echo.Route
-	HEAD(path string, h echo.HandlerFunc, m ...echo.MiddlewareFunc) *echo.Route
-	OPTIONS(path string, h echo.HandlerFunc, m ...echo.MiddlewareFunc) *echo.Route
-	PATCH(path string, h echo.HandlerFunc, m ...echo.MiddlewareFunc) *echo.Route
-	POST(path string, h echo.HandlerFunc, m ...echo.MiddlewareFunc) *echo.Route
-	PUT(path string, h echo.HandlerFunc, m ...echo.MiddlewareFunc) *echo.Route
-	TRACE(path string, h echo.HandlerFunc, m ...echo.MiddlewareFunc) *echo.Route
+// GinServerOptions provides options for the Gin server.
+type GinServerOptions struct {
+	BaseURL      string
+	Middlewares  []MiddlewareFunc
+	ErrorHandler func(*gin.Context, error, int)
 }
 
-// RegisterHandlers adds each server route to the EchoRouter.
-func RegisterHandlers(router EchoRouter, si ServerInterface) {
-	RegisterHandlersWithBaseURL(router, si, "")
+// RegisterHandlers creates http.Handler with routing matching OpenAPI spec.
+func RegisterHandlers(router gin.IRouter, si ServerInterface) {
+	RegisterHandlersWithOptions(router, si, GinServerOptions{})
 }
 
-// Registers handlers, and prepends BaseURL to the paths, so that the paths
-// can be served under a prefix.
-func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL string) {
+// RegisterHandlersWithOptions creates http.Handler with additional options
+func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options GinServerOptions) {
+	errorHandler := options.ErrorHandler
+	if errorHandler == nil {
+		errorHandler = func(c *gin.Context, err error, statusCode int) {
+			c.JSON(statusCode, gin.H{"msg": err.Error()})
+		}
+	}
 
 	wrapper := ServerInterfaceWrapper{
-		Handler: si,
+		Handler:            si,
+		HandlerMiddlewares: options.Middlewares,
+		ErrorHandler:       errorHandler,
 	}
 
-	router.GET(baseURL+"/v1/characters", wrapper.GetCharacterSummeryList)
-	router.GET(baseURL+"/v1/characters/:id", wrapper.GetCharacterDetails)
-	router.GET(baseURL+"/v1/characters/:id/evolve/tree", wrapper.GetCharacterEvolveTree)
-	router.GET(baseURL+"/v1/events", wrapper.GetEventSummeryList)
-	router.GET(baseURL+"/v1/events/:id", wrapper.GetEventDetails)
-	router.GET(baseURL+"/v1/friend/requests", wrapper.GetFriendshipRequests)
-	router.POST(baseURL+"/v1/friend/requests", wrapper.PostFriendRequest)
-	router.GET(baseURL+"/v1/friend/requests/:id", wrapper.GetFriendshipRequestDetails)
-	router.PUT(baseURL+"/v1/friend/requests/:id", wrapper.PutFriendshipRequest)
-	router.DELETE(baseURL+"/v1/friend/:id", wrapper.DeleteFriend)
-	router.GET(baseURL+"/v1/friend/:id", wrapper.GetFriend)
-	router.GET(baseURL+"/v1/friends", wrapper.GetFriends)
-	router.DELETE(baseURL+"/v1/guild/battle/event/:event_id/leader", wrapper.DeleteGuildBattleEventEntry)
-	router.GET(baseURL+"/v1/guild/battle/event/:event_id/leader", wrapper.GetGuildBattleEvents)
-	router.POST(baseURL+"/v1/guild/battle/event/:event_id/leader", wrapper.PostGuildBattleEventEntry)
-	router.GET(baseURL+"/v1/guild/battle/event/:event_id/mattings", wrapper.GetGuildBattleEventMattings)
-	router.GET(baseURL+"/v1/guild/battle/event/:event_id/mattings/:id", wrapper.GetGuildBattleEventMattingDetails)
-	router.POST(baseURL+"/v1/guild/battle/event/:event_id/register", wrapper.PostGuildBattleCharacterRegister)
-	router.GET(baseURL+"/v1/guild/battle/event/:event_id/result", wrapper.GetGuildBattleLogDetails)
-	router.GET(baseURL+"/v1/guild/battle/events", wrapper.GetGuildBattleResults)
-	router.GET(baseURL+"/v1/guild/:guild_id", wrapper.GetGuild)
-	router.DELETE(baseURL+"/v1/guild/:guild_id/exit", wrapper.ExitGuild)
-	router.GET(baseURL+"/v1/guild/:guild_id/funds", wrapper.GetGuildFund)
-	router.POST(baseURL+"/v1/guild/:guild_id/funds", wrapper.PostGuildFund)
-	router.GET(baseURL+"/v1/guild/:guild_id/funds/logs", wrapper.GetGuildFundLogs)
-	router.GET(baseURL+"/v1/guild/:guild_id/funds/logs/:id", wrapper.GetGuildFundLogDetails)
-	router.DELETE(baseURL+"/v1/guild/:guild_id/join", wrapper.DeleteJoinGuildReq)
-	router.POST(baseURL+"/v1/guild/:guild_id/join", wrapper.JoinGuildReq)
-	router.PUT(baseURL+"/v1/guild/:guild_id/leader", wrapper.ChangeGuildLeader)
-	router.DELETE(baseURL+"/v1/guild/:guild_id/leader/info", wrapper.DeleteGuild)
-	router.PUT(baseURL+"/v1/guild/:guild_id/leader/info", wrapper.PutGuild)
-	router.GET(baseURL+"/v1/guild/:guild_id/leader/join", wrapper.GetGuildJoinReq)
-	router.PUT(baseURL+"/v1/guild/:guild_id/leader/join", wrapper.ApproveJoinGuildReq)
-	router.DELETE(baseURL+"/v1/guild/:guild_id/leader/members/:user_id", wrapper.KickGuildMember)
-	router.POST(baseURL+"/v1/guild/:guild_id/leader/upgrade", wrapper.PostGuildUpgrade)
-	router.GET(baseURL+"/v1/guilds", wrapper.GetGuilds)
-	router.POST(baseURL+"/v1/guilds", wrapper.CreateGuild)
-	router.POST(baseURL+"/v1/login", wrapper.Login)
-	router.GET(baseURL+"/v1/me", wrapper.GetMe)
-	router.POST(baseURL+"/v1/me", wrapper.CreateUser)
-	router.GET(baseURL+"/v1/message/room", wrapper.GetMessageRooms)
-	router.POST(baseURL+"/v1/message/room", wrapper.CreateMessageRoom)
-	router.DELETE(baseURL+"/v1/message/room/:id", wrapper.DeleteMessageRoom)
-	router.GET(baseURL+"/v1/message/room/:id", wrapper.GetMessageRoom)
-	router.DELETE(baseURL+"/v1/message/room/:id/chat/fix", wrapper.DeleteMessageRoomChat)
-	router.PUT(baseURL+"/v1/message/room/:id/chat/fix", wrapper.PutMessageRoomChat)
-	router.GET(baseURL+"/v1/message/room/:id/chats", wrapper.GetMessageRoomChat)
-	router.POST(baseURL+"/v1/message/room/:id/chats", wrapper.PostMessageRoomChat)
-	router.GET(baseURL+"/v1/user/:user_id/character/:id", wrapper.GetUserCharacterDetails)
-	router.POST(baseURL+"/v1/user/:user_id/character/:id/evolve", wrapper.PostEvolveCharacter)
-	router.POST(baseURL+"/v1/user/:user_id/character/:id/experience", wrapper.PostCharacterExperience)
-	router.GET(baseURL+"/v1/user/:user_id/characters", wrapper.GetUserCharacterSummeryList)
-	router.GET(baseURL+"/v1/user/:user_id/home", wrapper.GetUserHome)
-	router.POST(baseURL+"/v1/user/:user_id/home", wrapper.PostUserHomeUpgrade)
-	router.GET(baseURL+"/v1/user/:user_id/home/facility", wrapper.GetUserFacilities)
-	router.POST(baseURL+"/v1/user/:user_id/home/facility/:id", wrapper.PostUserHomeFacilityUpgrade)
-
+	router.GET(options.BaseURL+"/v1/characters", wrapper.GetCharacterSummeryList)
+	router.GET(options.BaseURL+"/v1/characters/:id", wrapper.GetCharacterDetails)
+	router.GET(options.BaseURL+"/v1/characters/:id/evolve/tree", wrapper.GetCharacterEvolveTree)
+	router.GET(options.BaseURL+"/v1/events", wrapper.GetEventSummeryList)
+	router.GET(options.BaseURL+"/v1/events/:id", wrapper.GetEventDetails)
+	router.GET(options.BaseURL+"/v1/friend/requests", wrapper.GetFriendshipRequests)
+	router.POST(options.BaseURL+"/v1/friend/requests", wrapper.PostFriendRequest)
+	router.GET(options.BaseURL+"/v1/friend/requests/:id", wrapper.GetFriendshipRequestDetails)
+	router.PUT(options.BaseURL+"/v1/friend/requests/:id", wrapper.PutFriendshipRequest)
+	router.DELETE(options.BaseURL+"/v1/friend/:id", wrapper.DeleteFriend)
+	router.GET(options.BaseURL+"/v1/friend/:id", wrapper.GetFriend)
+	router.GET(options.BaseURL+"/v1/friends", wrapper.GetFriends)
+	router.DELETE(options.BaseURL+"/v1/guild/battle/event/:event_id/leader", wrapper.DeleteGuildBattleEventEntry)
+	router.GET(options.BaseURL+"/v1/guild/battle/event/:event_id/leader", wrapper.GetGuildBattleEvents)
+	router.POST(options.BaseURL+"/v1/guild/battle/event/:event_id/leader", wrapper.PostGuildBattleEventEntry)
+	router.GET(options.BaseURL+"/v1/guild/battle/event/:event_id/mattings", wrapper.GetGuildBattleEventMattings)
+	router.GET(options.BaseURL+"/v1/guild/battle/event/:event_id/mattings/:id", wrapper.GetGuildBattleEventMattingDetails)
+	router.POST(options.BaseURL+"/v1/guild/battle/event/:event_id/register", wrapper.PostGuildBattleCharacterRegister)
+	router.GET(options.BaseURL+"/v1/guild/battle/event/:event_id/result", wrapper.GetGuildBattleLogDetails)
+	router.GET(options.BaseURL+"/v1/guild/battle/events", wrapper.GetGuildBattleResults)
+	router.GET(options.BaseURL+"/v1/guild/:guild_id", wrapper.GetGuild)
+	router.DELETE(options.BaseURL+"/v1/guild/:guild_id/exit", wrapper.ExitGuild)
+	router.GET(options.BaseURL+"/v1/guild/:guild_id/funds", wrapper.GetGuildFund)
+	router.POST(options.BaseURL+"/v1/guild/:guild_id/funds", wrapper.PostGuildFund)
+	router.GET(options.BaseURL+"/v1/guild/:guild_id/funds/logs", wrapper.GetGuildFundLogs)
+	router.GET(options.BaseURL+"/v1/guild/:guild_id/funds/logs/:id", wrapper.GetGuildFundLogDetails)
+	router.DELETE(options.BaseURL+"/v1/guild/:guild_id/join", wrapper.DeleteJoinGuildReq)
+	router.POST(options.BaseURL+"/v1/guild/:guild_id/join", wrapper.JoinGuildReq)
+	router.PUT(options.BaseURL+"/v1/guild/:guild_id/leader", wrapper.ChangeGuildLeader)
+	router.DELETE(options.BaseURL+"/v1/guild/:guild_id/leader/info", wrapper.DeleteGuild)
+	router.PUT(options.BaseURL+"/v1/guild/:guild_id/leader/info", wrapper.PutGuild)
+	router.GET(options.BaseURL+"/v1/guild/:guild_id/leader/join", wrapper.GetGuildJoinReq)
+	router.PUT(options.BaseURL+"/v1/guild/:guild_id/leader/join", wrapper.ApproveJoinGuildReq)
+	router.DELETE(options.BaseURL+"/v1/guild/:guild_id/leader/members/:user_id", wrapper.KickGuildMember)
+	router.POST(options.BaseURL+"/v1/guild/:guild_id/leader/upgrade", wrapper.PostGuildUpgrade)
+	router.GET(options.BaseURL+"/v1/guilds", wrapper.GetGuilds)
+	router.POST(options.BaseURL+"/v1/guilds", wrapper.CreateGuild)
+	router.POST(options.BaseURL+"/v1/login", wrapper.Login)
+	router.GET(options.BaseURL+"/v1/me", wrapper.GetMe)
+	router.POST(options.BaseURL+"/v1/me", wrapper.CreateUser)
+	router.GET(options.BaseURL+"/v1/message/room", wrapper.GetMessageRooms)
+	router.POST(options.BaseURL+"/v1/message/room", wrapper.CreateMessageRoom)
+	router.DELETE(options.BaseURL+"/v1/message/room/:id", wrapper.DeleteMessageRoom)
+	router.GET(options.BaseURL+"/v1/message/room/:id", wrapper.GetMessageRoom)
+	router.DELETE(options.BaseURL+"/v1/message/room/:id/chat/fix", wrapper.DeleteMessageRoomChat)
+	router.PUT(options.BaseURL+"/v1/message/room/:id/chat/fix", wrapper.PutMessageRoomChat)
+	router.GET(options.BaseURL+"/v1/message/room/:id/chats", wrapper.GetMessageRoomChat)
+	router.POST(options.BaseURL+"/v1/message/room/:id/chats", wrapper.PostMessageRoomChat)
+	router.GET(options.BaseURL+"/v1/user/:user_id/character/:id", wrapper.GetUserCharacterDetails)
+	router.POST(options.BaseURL+"/v1/user/:user_id/character/:id/evolve", wrapper.PostEvolveCharacter)
+	router.POST(options.BaseURL+"/v1/user/:user_id/character/:id/experience", wrapper.PostCharacterExperience)
+	router.GET(options.BaseURL+"/v1/user/:user_id/characters", wrapper.GetUserCharacterSummeryList)
+	router.GET(options.BaseURL+"/v1/user/:user_id/home", wrapper.GetUserHome)
+	router.POST(options.BaseURL+"/v1/user/:user_id/home", wrapper.PostUserHomeUpgrade)
+	router.GET(options.BaseURL+"/v1/user/:user_id/home/facility", wrapper.GetUserFacilities)
+	router.POST(options.BaseURL+"/v1/user/:user_id/home/facility/:id", wrapper.PostUserHomeFacilityUpgrade)
 }
 
 // Base64 encoded, gzipped, json marshaled Swagger object

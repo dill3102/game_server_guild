@@ -4,15 +4,12 @@ import (
 	"log"
 	"net/http"
 
+	openapi "github.com/dill3102/game_server_guild/api"
+	handler "github.com/dill3102/game_server_guild/internal/controller"
+	"github.com/dill3102/game_server_guild/internal/db"
+	"github.com/dill3102/game_server_guild/internal/repository"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-
-	// 生成されたOpenAPIハンドラパッケージ
-
-	openapi "example.com/dill3102/game_server/api"         // 実際のパスに応じて変更
-	"example.com/dill3102/game_server/internal/handler"    // DDDのハンドラ
-	"example.com/dill3102/game_server/internal/repository" // DDDのリポジトリ
-	"example.com/dill3102/game_server/internal/usecase"    // DDDのユースケース
 )
 
 func main() {
@@ -22,19 +19,14 @@ func main() {
 	e.Use(middleware.Recover())
 
 	// インフラ層（永続化）などの初期化
-	userRepo := repository.NewUserRepository()
-
-	// ユースケースの初期化
-	userUsecase := usecase.NewUserUsecase(userRepo)
-
-	// ハンドラ層の初期化（依存注入）
-	userHandler := handler.NewUserHandler(userUsecase)
+	repo := repository.NewRepository(db.NewDB())
+	handler := handler.NewHandler(repo)
 
 	// OpenAPIのハンドラに自作ハンドラを接続
-	api := openapi.NewStrictHandler(userHandler, nil)
+	// api := openapi.NewStrictHandler(handler, nil)
 
 	// Echoルーターにマウント
-	openapi.RegisterHandlers(e, api)
+	openapi.RegisterHandlers(e, handler)
 
 	// サーバー起動
 	if err := e.Start(":8080"); err != nil && err != http.ErrServerClosed {
